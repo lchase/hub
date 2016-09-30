@@ -1,0 +1,19 @@
+{
+  "name": "hub-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+    "body-parser": "~1.0.1",
+    "express": "~4.0.0",
+    "mongoose": "~3.6.13",
+    "morgan": "^1.7.0"
+  },
+  "keywords": [],
+  "author": "Lawrence Chase",
+  "license": "ISC"
+}
