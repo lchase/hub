@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { Field, reduxForm } from 'redux-form';
-import FormInput from './FormInput';
+import FormInput from '../forms/FormInput';
+import { bindActionCreators } from 'redux'
+
+import { loginUser } from '../../actions/auth';
 
 const validate = values => {
   const errors = {};
@@ -15,16 +19,36 @@ const validate = values => {
   if (!values.password) {
     errors.password = "Please enter a password.";
   }
-
+  console.log('validate', errors);
   return errors;
 };
 
-class Login extends React.Component {
+const form = reduxForm({
+  form: 'login',
+  validate: validate
+});
+
+class Login extends Component {
   handleFormSubmit(values) {
-    console.log('handleFormSubmit', values);
+    console.log('Login.handleFormSubmit(...)', values);
+    console.log(this.props.login);
+    this.props.login(values);
   };
 
+  renderAlert() {
+    if (this.props.errorMessage) {
+      let message = this.props.message || this.props.errorMessage;
+      return (
+        <div className="alert alert-error alert-dismissible">
+          <span>{message}</span>
+        </div>
+      )
+    }
+  }
+
   render() {
+    // This property function (and empty default implementation) is added by the reduxForm I think,
+    // it doesn't come back undefined after the reduxForm(...) decorates the component
     const { handleSubmit } = this.props;
 
     return (
@@ -36,13 +60,14 @@ class Login extends React.Component {
         <div className="login-box-body">
           <p className="login-box-msg">Sign in to start your session</p>
 
-          <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+          <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+            {this.renderAlert()}
             <Field name="email" component={FormInput} type="email" className="form-control" label="Email" placeholder="Email" inlineIco="glyphicon-envelope" />
             <Field name="password" component={FormInput} type="password" className="form-control" placeholder="Password" inlineIco="glyphicon-lock" />
             
             <div className="row">
               <div className="col-xs-8">
-                <div className="checkbox icheck">
+                <div>
                   <label>
                     <Field name="rememberMe" component="input" type="checkbox" /> Remember Me
                   </label>
@@ -57,7 +82,7 @@ class Login extends React.Component {
           </form>
 
           <a href="#">I forgot my password</a><br />
-          <Link to="/signup" className="text-center">Register a new membership</Link>
+          <Link to="/register" className="text-center">Register a new membership</Link>
 
         </div>
         
@@ -67,7 +92,18 @@ class Login extends React.Component {
   }
 }
 
-export default reduxForm({
-  form: 'login',
-  validate
-})(Login);
+function mapStateToProps(state) {
+  return {
+    errorMessage: state.auth.error,
+    message: state.auth.message || state.auth.error,
+    ajaxInProgress: state.auth.ajaxInProgress
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    login: loginUser
+  }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(form(Login));

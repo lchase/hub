@@ -44,7 +44,7 @@ const common = {
     vendor: Object.keys(pkg.dependencies)
   },
   devServer: {
-    port: 4000
+    port: 4001
   },
   module: {
     preLoaders: [

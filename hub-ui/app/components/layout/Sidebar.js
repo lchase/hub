@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 import SidebarUserPanel from './SidebarUserPanel';
 import SidebarSearch from './SidebarSearch';
+import NavLink from '../nav/NavLink';
 
 export default class Sidebar extends Component {
   render() {
@@ -10,10 +11,18 @@ export default class Sidebar extends Component {
         <section className="sidebar">
           <SidebarUserPanel />
           <SidebarSearch />
-
           <ul className="sidebar-menu">
             <li className="header">HEADER</li>
-            <li className={this.props.location}><Link to='/Other'><i className="fa fa-link"></i> <span>Other</span></Link></li>
+            <NavLink to='/'><i className="fa fa-dashboard"></i> <span>Dashboard</span></NavLink>
+          </ul>  
+        </section>  
+      </aside>
+    );
+  }
+}
+
+/*
+// v2.0.0
             <li className="active"><a href="#"><i className="fa fa-link"></i> <span>Link</span></a></li>
             <li><a href="#"><i className="fa fa-link"></i> <span>Another Link</span></a></li>
             <li className="treeview">
@@ -27,17 +36,4 @@ export default class Sidebar extends Component {
                 <li><a href="#">Link in level 2</a></li>
               </ul>
             </li>
-          </ul>  
-        </section>  
-      </aside>
-    );
-  }
-}
-
-/*
-// v2.0.0
-<Link to={{ pathname: '/foo', query: { the: 'query' } }} />
-
-// Still valid in 2.x
-<Link to="/foo"/>
 */

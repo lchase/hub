@@ -1,22 +1,23 @@
 import React, {Component} from 'react';
-import { Router, Route, IndexRoute, hashHistory } from 'react-router';
+import { Router, hashHistory } from 'react-router';
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import { UserAuthWrapper } from 'redux-auth-wrapper'
 import { REPLACE } from '../actions';
-
-import App from './App';
-import Content from './Content';
-import PublicPage from './PublicPage';
-import Dashboard from './Dashboard';
-import Other from './Other';
-import Login from './Login';
-import Signup from './Signup';
+import cookie from 'react-cookie';
+import { authUser } from '../actions/auth';
 
 import configureStore from '../store/configureStore';
 
+import routes from '../routes';
+
 const store = configureStore();
+
+const token = cookie.load('token');
+if (token) {
+  store.dispatch(authUser(cookie.load('user')));
+}
 
 const history = syncHistoryWithStore(hashHistory, store);
 
@@ -30,18 +31,7 @@ export default class AdminLTETemplate extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Router history={history}>
-          <Route path="/" component={App}>
-            <Route component={Content}>
-              <IndexRoute component={Dashboard} />
-              <Route path="other" component={UserIsAuthenticated(Other)} />
-            </Route>
-            <Route component={PublicPage}>
-              <Route path="login" component={Login} />
-            </Route>
-            <Route path="signup" component={Signup} />      
-          </Route>
-        </Router>
+        <Router history={history} routes={routes} />
       </Provider>
     );
   }

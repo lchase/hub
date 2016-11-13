@@ -56,11 +56,6 @@ export default class Rightbar extends Component {
                 <h3 className="control-sidebar-heading">General Settings</h3>
 
                 <div className="form-group">
-                  <label className="control-sidebar-subheading">
-                    Report panel usage
-                    <input type="checkbox" className="pull-right" checked />
-                  </label>
-
                   <p>
                     Some information about this general settings option
                   </p>
