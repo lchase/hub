@@ -11,7 +11,7 @@ exports.clean = function (path) {
       })
     ]
   }
-}
+};
 
 exports.setupCSS = function(paths) {
   return {
@@ -25,4 +25,4 @@ exports.setupCSS = function(paths) {
       ]
     }
   };
-}
+};

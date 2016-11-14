@@ -1,14 +1,3 @@
-npm
-  * npm -g install npm@next
-
-windows build tools (as admin console)
-  * npm install --global --production windows-build-tools
-
-Make sure to install python (probably not necessary, should be in the windows build tools)
-  * 2.x (3.x doesn't work for some dependencies)
-  * via https://www.python.org/ftp/python/2.7.12/python-2.7.12.amd64.msi
-  * Make sure you add the option to add python to the system path or you need to do it manually.
-  * If it doesn't show up in your path you can kill explorer.exe and launch it vs. rebooting.
-
-.net 2.0
-  * http://www.groovypost.com/howto/enable-net-framework-2-windows-8/
+"npm install" - installs all dependencies including webpack
+"webpack -d --watch" - builds the webpack module and starts a watcher process to auto-build on new changes
+"npm start" - invokes "nodemon --debug=5001 ./build/server.js" - this will start the node process with a debug listener on port 5001, loading the webpack module built in the previous step
