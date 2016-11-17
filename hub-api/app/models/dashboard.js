@@ -7,6 +7,9 @@ module.exports = function(sequelize, DataTypes) {
     description: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    isDefault: {
+      type: DataTypes.BOOLEAN,
     }
   });
 

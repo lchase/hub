@@ -1,3 +1,8 @@
+# General
+* ctrl-h toggles on/off dock monitor on the right.
+
 # Todo
-* The header or main page needs to call the api/preference/name/key 
-to see if the sidebar shold be collapsed or expanded.
+* Implement validation logic for create dashboard
+* Wire up backend calls for dashboard (api needed as well)
+* Sort out dashboard grid and how that would be stored then implement that
+* Figure out how users pick shared dashboards or share private dashboards and view multiple dashboards
