@@ -19,7 +19,8 @@ const PATHS = {
     path.join(__dirname, 'public', 'css', 'AdminLTE.min.css'),
     path.join(__dirname, 'public', 'css', 'skins', 'skin-blue.min.css'),
     path.join(__dirname, 'assets', 'style', 'main.less'),
-    path.join(__dirname, 'public', 'js', 'plugins', 'iCheck', 'square', 'blue.css')
+    path.join(__dirname, 'public', 'js', 'plugins', 'iCheck', 'square', 'blue.css'),
+    path.join(__dirname, 'node_modules', 'antd', 'dist', 'antd.css')
   ],
   images: [
     path.join(__dirname, 'public', 'img'),

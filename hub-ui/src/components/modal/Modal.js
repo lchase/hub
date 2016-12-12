@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import '../../../assets/style/main.less';
 
 class Modal extends Component {
   handleOnClose() {
@@ -24,15 +25,15 @@ class Modal extends Component {
     }
 
     return (
-      
-        <div key="myModal" id="myModal" className="modal fadeIn" tabIndex="-1" role="dialog" style={styles}>
-        <ReactCSSTransitionGroup
+      <ReactCSSTransitionGroup
           transitionName="example"
           transitionEnterTimeout={5000}
           transitionLeaveTimeout={3000}
           transitionAppear={true}
           transitionAppearTimeout={5000}>
-          <div className="modal-dialog" role="document">
+        <div key="myModal" id="myModal" className="modal fadeIn" tabIndex="-1" role="dialog" style={styles}>
+        
+          <div key="modal-dialog" className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
                 <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" onClick={this.handleOnClose.bind(this)}>&times;</span></button>
@@ -47,9 +48,9 @@ class Modal extends Component {
               </div>
             </div>
           </div>
-          </ReactCSSTransitionGroup>
+          
         </div>
-      
+      </ReactCSSTransitionGroup>
     );
   }
 }

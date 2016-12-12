@@ -5,6 +5,10 @@ import { bindActionCreators } from 'redux';
 import * as PreferenceActions from '../actions/preference';
 import _ from 'lodash';
 
+import enUS from 'antd/lib/locale-provider/en_US';
+import { LocaleProvider } from 'antd';
+import 'antd/dist/antd.css';
+
 export class App extends Component {
   constructor() {
     super(...arguments);
@@ -48,7 +52,9 @@ export class App extends Component {
   render() {
     return (
       <div>
-        {this.props.children}
+        <LocaleProvider locale={enUS}>
+          {this.props.children}
+        </LocaleProvider>
         <DevTools visibleOnLoad={false} />
       </div>
     )

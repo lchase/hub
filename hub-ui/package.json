@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "@kadira/storybook": "*",
+    "antd": "^2.5.1",
     "axios": "^0.15.0",
     "jquery": "^3.1.1",
     "lodash.capitalize": "^4.2.1",
