@@ -17,7 +17,7 @@ fs.readdirSync('node_modules')
   });
 
 const PATHS = {
-  app: path.join(__dirname, 'app'),
+  app: path.join(__dirname, 'src'),
   build: path.join(__dirname, 'build')
 };
 
@@ -26,7 +26,7 @@ const common = {
   //   app: PATHS.app,
   //   vendor: Object.keys(pkg.dependencies)
   // },
-  entry: './app/index.js',
+  entry: './src/index.js',
   target: 'node',
   node: {
     __filename: true,

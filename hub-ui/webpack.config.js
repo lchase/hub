@@ -11,7 +11,7 @@ let extractCSS = new ExtractTextPlugin('[name].css');
 let extractLESS = new ExtractTextPlugin('[name].less');
 
 const PATHS = {
-  app: path.join(__dirname, 'app'),
+  app: path.join(__dirname, 'src'),
   build: path.join(__dirname, 'build'),
   style: [
     path.join(__dirname, 'public', 'font-awesome-4.6.3', 'css', 'font-awesome.min.css'),
@@ -32,7 +32,7 @@ const PATHS = {
 }
 
 var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-  template: __dirname + '/app/index.html',
+  template: __dirname + '/src/index.html',
   filename: 'index.html',
   inject: 'body'
 })
