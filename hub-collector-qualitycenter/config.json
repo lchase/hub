@@ -1,0 +1,18 @@
+{
+  "host": "tlvqc",
+  "port": "8080",
+  "almDomain": "WAS",
+  "almProject": "Impact360",
+  "almUser": "larry_chase",
+  "almPwd": "qc",
+  "almFilter": {
+    "user-04": "\"WFM Web Suite\" Or \"WFM-Core\" Or \"Report Framework\"",
+    "user-07": "Not (\"Documentation\" or \"Doc: Online Help\" Or \"SFP\" Or \"RFS\" Or \"Request Management\")",
+    "user-16": "\"15.1 FP1\"",
+    "user-12": "Not \"Localization\"",
+    "user-17": "Not \"HF*\"",
+    "user-42": "\"Bug\"",
+    "user-76": "Not \"My Requests\""
+  },
+  "trailingUpdateMinutes": 1440
+}
