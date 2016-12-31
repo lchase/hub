@@ -1,0 +1,55 @@
+buildscript {
+	ext {
+		springBootVersion = '1.4.2.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+jar {
+	baseName = 'demo'
+	version = '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	//compile('org.springframework.boot:spring-boot-starter-aop')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	//compile('org.springframework.boot:spring-boot-starter-jooq')
+	compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	//compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+	compile('org.springframework.mobile:spring-mobile-device')
+
+
+	compile group: 'io.katharsis', name: 'katharsis-core', version: '2.8.2'
+	compile group: 'io.katharsis', name: 'katharsis-spring', version: '2.8.2'
+	compile group: 'io.katharsis', name: 'katharsis-jpa', version: '2.8.2'
+	compile group: 'io.katharsis', name: 'katharsis-cdi', version: '2.8.2'
+	compile group: 'io.katharsis', name: 'katharsis-validation', version: '2.8.2'
+
+	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
+
+	compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.22'
+
+	runtime('mysql:mysql-connector-java')
+
+	testCompile("junit:junit")
+	testCompile("org.springframework.boot:spring-boot-starter-test")
+	testCompile("org.springframework.security:spring-security-test")
+	testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
+}
