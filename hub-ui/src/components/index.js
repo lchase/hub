@@ -7,6 +7,7 @@ import { UserAuthWrapper } from 'redux-auth-wrapper'
 import { REPLACE } from '../actions';
 import cookie from 'react-cookie';
 import { authUser } from '../actions/auth';
+import {JWT_TOKEN_COOKIE_NAME} from '../actions/auth';
 
 import configureStore from '../store/configureStore';
 
@@ -14,8 +15,9 @@ import routes from '../routes';
 
 const store = configureStore();
 
-const token = cookie.load('token');
+const token = cookie.load(JWT_TOKEN_COOKIE_NAME);
 if (token) {
+  //TODO: user should be pulled from JWT token
   store.dispatch(authUser(cookie.load('user')));
 }
 

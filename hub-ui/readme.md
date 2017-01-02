@@ -2,7 +2,7 @@
 * "npm install" - installs all dependencies including webpack
 * "npm start" - Builds the UI module and starts the webpack development server,
 which also monitors changes to source files and auto-deploys them.
-* Navigate to "http://localhost:4001/webpack-dev-server/". NOTE: make sure hub-api
+* Navigate to "http://localhost:4001/". NOTE: make sure hub-api
 is running before you do this, otherwise it won't work.
 * "npm test" - runs unit tests
 

@@ -1,4 +1,4 @@
-import { errorHandler, API_URL } from './index';
+import { errorHandler, API_URL_ROOT, getData, postData } from './index';
 import axios from 'axios';
 
 export const TOGGLE_SIDEBAR_REQUEST = 'TOGGLE_SIDEBAR_REQUEST';
@@ -11,22 +11,17 @@ export const LOAD_USER_PREFERENCES_ERROR = 'LOAD_USER_PREFERENCES_ERROR';
 
 export function loadPreferences(userId) {
   return function(dispatch) {
-    //console.log('registerUser(...)', email, firstName, lastName, password, `${API_URL}/auth/register`);
+    //console.log('registerUser(...)', email, firstName, lastName, password, `${API_URL_ROOT}/auth/register`);
     dispatch({ type: LOAD_USER_PREFERENCES_REQUEST });
 
-    axios.get(`${API_URL}/preference/user/${userId}`)
-    .then(response => {
-      dispatch({ type: LOAD_USER_PREFERENCES_COMPLETE, payload: response.data });
-    })
-    .catch((error) => {
-      errorHandler(dispatch, error, LOAD_USER_PREFERENCES_ERROR)
-    });
+    getData(LOAD_USER_PREFERENCES_COMPLETE, LOAD_USER_PREFERENCES_ERROR, true,
+      `${API_URL_ROOT}preference/user/${userId}`, dispatch);
   }
 }
 
 export function toggleSidebar(expanded, userId) {
   return function(dispatch) {
-    //console.log('registerUser(...)', email, firstName, lastName, password, `${API_URL}/auth/register`);
+    //console.log('registerUser(...)', email, firstName, lastName, password, `${API_URL_ROOT}/auth/register`);
     dispatch({ type: TOGGLE_SIDEBAR_REQUEST });
 
     let payload = { 
@@ -40,7 +35,7 @@ export function toggleSidebar(expanded, userId) {
       }
     };
     console.log(payload);
-    axios.post(`${API_URL}/preference`, payload)
+    axios.post(`${API_URL_ROOT}/preference`, payload)
     .then(response => {
       dispatch({ type: TOGGLE_SIDEBAR_COMPLETE, payload: response.data });
     })
