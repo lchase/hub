@@ -1,0 +1,26 @@
+buildscript {
+  dependencies {
+    classpath 'org.mariadb.jdbc:mariadb-java-client:1.1.7'
+  }
+}
+
+plugins {
+  id "org.flywaydb.flyway" version "4.0.3"
+}
+
+flyway {
+  user = 'root'
+  password = 'blue'
+  url = 'jdbc:mariadb://localhost:3306/hub_dos'
+}
+
+apply plugin: 'java'
+
+/*
+  flywayMigrate     Migrates the database
+  flywayClean	      Drops all objects in the configured schemas
+  flywayInfo	      Prints the details and status information about all the migrations
+  flywayValidate	  Validates the applied migrations against the ones available on the classpath
+  flywayBaseline	  Baselines an existing database, excluding all migrations up to and including baselineVersion
+  flywayRepair	    Repairs the metadata table
+*/
