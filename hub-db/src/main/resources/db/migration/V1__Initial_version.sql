@@ -1,4 +1,4 @@
-CREATE TABLE Authority
+CREATE TABLE authorities
 (
     Id INT(11) PRIMARY KEY NOT NULL,
     Name VARCHAR(100) NOT NULL
@@ -6,12 +6,12 @@ CREATE TABLE Authority
 COLLATE='latin1_general_ci'
 ENGINE=InnoDB
 ;
-CREATE UNIQUE INDEX Authority_Id_uindex ON Authority (Id);
+CREATE UNIQUE INDEX Authority_Id_uindex ON authorities (Id);
 
-INSERT INTO Authority (Id, Name) VALUES (1, 'ROLE_USER');
-INSERT INTO Authority (Id, Name) VALUES (2, 'ROLE_ADMIN');
+INSERT INTO authorities (Id, Name) VALUES (1, 'ROLE_USER');
+INSERT INTO authorities (Id, Name) VALUES (2, 'ROLE_ADMIN');
 
-CREATE TABLE Dashboard
+CREATE TABLE dashboards
 (
     Id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     Name VARCHAR(255) NOT NULL,
@@ -23,7 +23,7 @@ COLLATE='latin1_general_ci'
 ENGINE=InnoDB
 ;
 
-CREATE TABLE DashboardWidget
+CREATE TABLE dashboard_widgets
 (
     Id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `Column` INT(11) NOT NULL,
@@ -35,7 +35,7 @@ COLLATE='latin1_general_ci'
 ENGINE=InnoDB
 ;
 
-CREATE TABLE User
+CREATE TABLE users
 (
     Id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     Password VARCHAR(255) NOT NULL,
@@ -48,9 +48,9 @@ CREATE TABLE User
 COLLATE='latin1_general_ci'
 ENGINE=InnoDB
 ;
-CREATE UNIQUE INDEX User_Email_uindex ON User (Email);
+CREATE UNIQUE INDEX User_Email_uindex ON users (Email);
 
-CREATE TABLE Preference
+CREATE TABLE preferences
 (
     Id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     UserId INT(11) NOT NULL,
@@ -58,27 +58,27 @@ CREATE TABLE Preference
     Value VARCHAR(255) NOT NULL,
     CreatedAt DATETIME NOT NULL,
     UpdatedAt DATETIME NOT NULL,
-    CONSTRAINT Preferences_User_Id_fk FOREIGN KEY (UserId) REFERENCES User (Id)
+    CONSTRAINT Preferences_User_Id_fk FOREIGN KEY (UserId) REFERENCES users (Id)
 )
 COLLATE='latin1_general_ci'
 ENGINE=InnoDB
 ;
-CREATE INDEX Preferences_User_Id_fk ON Preference (UserId);
+CREATE INDEX Preferences_User_Id_fk ON preferences (UserId);
 
-CREATE TABLE UserAuthority
+CREATE TABLE user_authorities
 (
     UserId INT(11) NOT NULL,
     AuthorityId INT(11) NOT NULL,
-    CONSTRAINT UserAuthority_User_Id_fk FOREIGN KEY (UserId) REFERENCES User (Id),
-    CONSTRAINT UserAuthority_Authority_Id_fk FOREIGN KEY (AuthorityId) REFERENCES Authority (Id)
+    CONSTRAINT UserAuthority_User_Id_fk FOREIGN KEY (UserId) REFERENCES users (Id),
+    CONSTRAINT UserAuthority_Authority_Id_fk FOREIGN KEY (AuthorityId) REFERENCES authorities (Id)
 )
 COLLATE='latin1_general_ci'
 ENGINE=InnoDB
 ;
-CREATE INDEX UserAuthority_Authority_Id_fk ON UserAuthority (AuthorityId);
-CREATE INDEX UserAuthority_User_Id_fk ON UserAuthority (UserId);
+CREATE INDEX UserAuthority_Authority_Id_fk ON user_authorities (AuthorityId);
+CREATE INDEX UserAuthority_User_Id_fk ON user_authorities (UserId);
 
-CREATE TABLE Widget
+CREATE TABLE widgets
 (
     Id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     Name VARCHAR(255) NOT NULL,

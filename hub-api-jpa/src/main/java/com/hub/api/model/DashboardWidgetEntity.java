@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "DashboardWidget", schema = "hub")
+@Table(name = "dashboard_widgets", schema = "hub")
 public class DashboardWidgetEntity {
     @Id
     @Column(name = "Id")

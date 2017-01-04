@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-@Table(name = "Authority")
+@Table(name = "authorities")
 public class Authority {
 
     @Id

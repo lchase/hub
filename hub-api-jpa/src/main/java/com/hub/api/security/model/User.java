@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "User")
+@Table(name = "users")
 public class User {
 
     @Id
@@ -46,7 +46,7 @@ public class User {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "UserAuthority",
+            name = "user_authorities",
             joinColumns = {@JoinColumn(name = "UserId", referencedColumnName = "Id")},
             inverseJoinColumns = {@JoinColumn(name = "AuthorityId", referencedColumnName = "Id")})
     private List<Authority> authorities;

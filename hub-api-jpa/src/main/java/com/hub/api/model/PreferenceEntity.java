@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Preference", schema = "hub")
+@Table(name = "preferences", schema = "hub")
 public class PreferenceEntity {
     @Id
     @Column(name = "Id")
