@@ -8,12 +8,6 @@ plugins {
   id "org.flywaydb.flyway" version "4.0.3"
 }
 
-flyway {
-  user = 'root'
-  password = 'blue'
-  url = 'jdbc:mariadb://localhost:3306/hub_dos'
-}
-
 apply plugin: 'java'
 
 /*
