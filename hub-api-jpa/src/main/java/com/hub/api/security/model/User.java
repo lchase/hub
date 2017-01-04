@@ -12,14 +12,13 @@ public class User {
 
     @Id
     @Column(name = "Id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "Username", unique = true)
+    @Column(name = "Email")
     @NotNull
     @Size(min = 4, max = 255)
-    private String username;
+    private String email;
 
     @Column(name = "Password")
     @NotNull
@@ -35,11 +34,6 @@ public class User {
     @NotNull
     @Size(min = 4, max = 100)
     private String lastName;
-
-    @Column(name = "Email")
-    @NotNull
-    @Size(min = 4, max = 255)
-    private String email;
 
     @Column(name = "Enabled")
     @NotNull
@@ -63,14 +57,6 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPassword() {

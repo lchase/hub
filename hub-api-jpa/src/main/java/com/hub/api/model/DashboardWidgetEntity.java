@@ -4,60 +4,56 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "dashboardWidgets", schema = "hub", catalog = "")
-public class DashboardWidgetsEntity {
+@Table(name = "DashboardWidget", schema = "hub")
+public class DashboardWidgetEntity {
+    @Id
+    @Column(name = "Id")
     private int id;
-    private int col;
+    @Basic
+    @Column(name = "Column")
+    private int column;
+    @Basic
+    @Column(name = "Row")
     private int row;
+    @Basic
+    @Column(name = "CreatedAt")
     private Timestamp createdAt;
+    @Basic
+    @Column(name = "UpdatedAt")
     private Timestamp updatedAt;
 
-    @Id
-    @Column(name = "id")
+
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "col")
-    public int getCol() {
-        return col;
+    public int getColumn() {
+        return column;
+    }
+    public void setColumn(int col) {
+        this.column = col;
     }
 
-    public void setCol(int col) {
-        this.col = col;
-    }
-
-    @Basic
-    @Column(name = "row")
     public int getRow() {
         return row;
     }
-
     public void setRow(int row) {
         this.row = row;
     }
 
-    @Basic
-    @Column(name = "createdAt")
     public Timestamp getCreatedAt() {
         return createdAt;
     }
-
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    @Basic
-    @Column(name = "updatedAt")
     public Timestamp getUpdatedAt() {
         return updatedAt;
     }
-
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
@@ -67,10 +63,10 @@ public class DashboardWidgetsEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        DashboardWidgetsEntity that = (DashboardWidgetsEntity) o;
+        DashboardWidgetEntity that = (DashboardWidgetEntity) o;
 
         if (id != that.id) return false;
-        if (col != that.col) return false;
+        if (column != that.column) return false;
         if (row != that.row) return false;
         if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
         if (updatedAt != null ? !updatedAt.equals(that.updatedAt) : that.updatedAt != null) return false;
@@ -81,7 +77,7 @@ public class DashboardWidgetsEntity {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + col;
+        result = 31 * result + column;
         result = 31 * result + row;
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);

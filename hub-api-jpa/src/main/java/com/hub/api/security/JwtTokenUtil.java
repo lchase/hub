@@ -37,13 +37,14 @@ public class JwtTokenUtil implements Serializable {
     @Value("${jwt.expiration}")
     private Long expiration;
 
-    public String getUsernameFromToken(String token) {
+    public String getEmailFromToken(String token) {
         String username;
         try {
             final Claims claims = getClaimsFromToken(token);
             username = claims.getSubject();
         } catch (Exception e) {
-            logger.error("Exception occurred retrieving username from token: ", e);
+            logger.debug("Exception occurred retrieving email from token.  This could be because the" +
+                    " user has not logged in yet.", e);
             username = null;
         }
         return username;
@@ -55,7 +56,8 @@ public class JwtTokenUtil implements Serializable {
             final Claims claims = getClaimsFromToken(token);
             created = new Date((Long) claims.get(CLAIM_KEY_CREATED));
         } catch (Exception e) {
-            logger.error("Exception occurred retrieving Created Date from token: ", e);
+            logger.debug("Exception occurred retrieving Created Date from token.  This could be because the" +
+                    " user has not logged in yet.", e);
             created = null;
         }
         return created;
@@ -67,6 +69,8 @@ public class JwtTokenUtil implements Serializable {
             final Claims claims = getClaimsFromToken(token);
             expiration = claims.getExpiration();
         } catch (Exception e) {
+            logger.debug("Exception occurred retrieving Expiration Date from token.  This could be because the" +
+                    " user has not logged in yet.", e);
             expiration = null;
         }
         return expiration;
@@ -78,6 +82,8 @@ public class JwtTokenUtil implements Serializable {
             final Claims claims = getClaimsFromToken(token);
             audience = (String) claims.get(CLAIM_KEY_AUDIENCE);
         } catch (Exception e) {
+            logger.debug("Exception occurred retrieving audience from token.  This could be because the" +
+                    " user has not logged in yet.", e);
             audience = null;
         }
         return audience;
@@ -91,6 +97,8 @@ public class JwtTokenUtil implements Serializable {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (Exception ex) {
+            logger.debug("Exception occurred retrieving claims from token.  This could be because the" +
+                    " user has not logged in yet.", ex);
             claims = null;
         }
         return claims;
@@ -162,7 +170,7 @@ public class JwtTokenUtil implements Serializable {
 
     public Boolean validateToken(String token, UserDetails userDetails) {
         JwtUser user = (JwtUser) userDetails;
-        final String username = getUsernameFromToken(token);
+        final String username = getEmailFromToken(token);
         final Date created = getCreatedDateFromToken(token);
         //final Date expiration = getExpirationDateFromToken(token);
         return (

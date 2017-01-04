@@ -11,19 +11,28 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class JwtUserDetailsServiceImpl implements UserDetailsService {
+public class JwtUserDetailsServiceImpl implements JwtUserDetailsService {
+
+    private UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    public JwtUserDetailsServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByEmail(username);
 
         if (user == null) {
             throw new UsernameNotFoundException("No user found with username " + username + ".");
         } else {
             return JwtUserFactory.create(user);
         }
+    }
+
+    @Override
+    public void createUser(User user) {
+        userRepository.save(user);
     }
 }

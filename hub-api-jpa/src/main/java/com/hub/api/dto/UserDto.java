@@ -1,4 +1,4 @@
-package com.hub.api.model;
+package com.hub.api.dto;
 
 import io.katharsis.resource.annotations.JsonApiId;
 import io.katharsis.resource.annotations.JsonApiResource;
@@ -6,32 +6,32 @@ import io.katharsis.resource.annotations.JsonApiResource;
 import java.sql.Timestamp;
 
 /**
- * This is essentially a mapping of UsersEntity.  Katharsis can generate an endpoint
+ * This is essentially a mapping of UserEntity.  Katharsis can generate an endpoint
  * directly from the entity, so this mapping is not always required.  However, if you
  * need to do processing/calculation of fields on the entity before they are sent to
  * the user, you can create a Dto like this one and a separate repository to handle
  * it.
  */
-@JsonApiResource(type = "user")
-public class UsersDto {
+@JsonApiResource(type = "userDto")
+public class UserDto {
 
     @JsonApiId
-    private Integer id;
+    private Long id;
 
     private String email;
     private String firstName;
     private String lastName;
     private String password;
-    private String resetPwdToken;
-    private Timestamp resetPwdExpires;
+    private boolean enabled;
+    private Timestamp lastPasswordResetDate;
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -67,20 +67,12 @@ public class UsersDto {
         this.password = password;
     }
 
-    public String getResetPwdToken() {
-        return resetPwdToken;
+    public Timestamp getLastPasswordResetDate() {
+        return lastPasswordResetDate;
     }
 
-    public void setResetPwdToken(String resetPwdToken) {
-        this.resetPwdToken = resetPwdToken;
-    }
-
-    public Timestamp getResetPwdExpires() {
-        return resetPwdExpires;
-    }
-
-    public void setResetPwdExpires(Timestamp resetPwdExpires) {
-        this.resetPwdExpires = resetPwdExpires;
+    public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
     }
 
     public Timestamp getCreatedAt() {
@@ -97,5 +89,13 @@ public class UsersDto {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

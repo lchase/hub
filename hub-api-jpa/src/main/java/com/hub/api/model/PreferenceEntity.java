@@ -4,60 +4,64 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Widgets", schema = "hub")
-public class WidgetsEntity {
+@Table(name = "Preference", schema = "hub")
+public class PreferenceEntity {
+    @Id
+    @Column(name = "Id")
     private int id;
+    @Column(name = "UserId")
+    private int userId;
+    @Basic
+    @Column(name = "Name")
     private String name;
-    private String description;
+    @Basic
+    @Column(name = "Value")
+    private String value;
+    @Basic
+    @Column(name = "CreatedAt")
     private Timestamp createdAt;
+    @Basic
+    @Column(name = "UpdatedAt")
     private Timestamp updatedAt;
 
-    @Id
-    @Column(name = "id")
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "name")
+    public int getUserId() {
+        return userId;
+    }
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "description")
-    public String getDescription() {
-        return description;
+    public String getValue() {
+        return value;
+    }
+    public void setValue(String value) {
+        this.value = value;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Basic
-    @Column(name = "createdAt")
     public Timestamp getCreatedAt() {
         return createdAt;
     }
-
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    @Basic
-    @Column(name = "updatedAt")
     public Timestamp getUpdatedAt() {
         return updatedAt;
     }
-
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
@@ -67,11 +71,11 @@ public class WidgetsEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        WidgetsEntity that = (WidgetsEntity) o;
+        PreferenceEntity that = (PreferenceEntity) o;
 
         if (id != that.id) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (value != null ? !value.equals(that.value) : that.value != null) return false;
         if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
         if (updatedAt != null ? !updatedAt.equals(that.updatedAt) : that.updatedAt != null) return false;
 
@@ -82,7 +86,7 @@ public class WidgetsEntity {
     public int hashCode() {
         int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (value != null ? value.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         return result;

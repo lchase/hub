@@ -4,16 +4,16 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Preferences", schema = "hub", catalog = "")
-public class PreferencesEntity {
+@Table(name = "Widget", schema = "hub")
+public class WidgetEntity {
     private int id;
     private String name;
-    private String value;
+    private String description;
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
     @Id
-    @Column(name = "id")
+    @Column(name = "Id")
     public int getId() {
         return id;
     }
@@ -23,7 +23,7 @@ public class PreferencesEntity {
     }
 
     @Basic
-    @Column(name = "name")
+    @Column(name = "Name")
     public String getName() {
         return name;
     }
@@ -33,17 +33,17 @@ public class PreferencesEntity {
     }
 
     @Basic
-    @Column(name = "value")
-    public String getValue() {
-        return value;
+    @Column(name = "Description")
+    public String getDescription() {
+        return description;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Basic
-    @Column(name = "createdAt")
+    @Column(name = "CreatedAt")
     public Timestamp getCreatedAt() {
         return createdAt;
     }
@@ -53,7 +53,7 @@ public class PreferencesEntity {
     }
 
     @Basic
-    @Column(name = "updatedAt")
+    @Column(name = "UpdatedAt")
     public Timestamp getUpdatedAt() {
         return updatedAt;
     }
@@ -67,11 +67,11 @@ public class PreferencesEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PreferencesEntity that = (PreferencesEntity) o;
+        WidgetEntity that = (WidgetEntity) o;
 
         if (id != that.id) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (value != null ? !value.equals(that.value) : that.value != null) return false;
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
         if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
         if (updatedAt != null ? !updatedAt.equals(that.updatedAt) : that.updatedAt != null) return false;
 
@@ -82,7 +82,7 @@ public class PreferencesEntity {
     public int hashCode() {
         int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (value != null ? value.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         return result;

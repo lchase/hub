@@ -20,7 +20,7 @@ import java.io.IOException;
 
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -39,9 +39,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
         String authToken = request.getHeader(this.tokenHeader);
 
-        String username = jwtTokenUtil.getUsernameFromToken(authToken);
+        String username = jwtTokenUtil.getEmailFromToken(authToken);
 
-        logger.info("checking authentication for user " + username);
+        log.info("checking authentication for user " + username);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
@@ -55,7 +55,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                logger.info("authenticated user " + username + ", setting security context");
+                log.info("authenticated user " + username + ", setting security context");
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }

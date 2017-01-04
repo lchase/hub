@@ -4,60 +4,60 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Dashboards", schema = "hub", catalog = "")
-public class DashboardsEntity {
+@Table(name = "Dashboard", schema = "hub")
+public class DashboardEntity {
+    @Id
+    @Column(name = "Id")
     private int id;
+    @Basic
+    @Column(name = "Name")
     private String name;
+    @Basic
+    @Column(name = "Description")
     private String description;
+    @Basic
+    @Column(name = "CreatedAt")
     private Timestamp createdAt;
+    @Basic
+    @Column(name = "UpdatedAt")
     private Timestamp updatedAt;
 
-    @Id
-    @Column(name = "id")
+
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "name")
+
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "description")
+
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
 
-    @Basic
-    @Column(name = "createdAt")
+
     public Timestamp getCreatedAt() {
         return createdAt;
     }
-
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    @Basic
-    @Column(name = "updatedAt")
+
     public Timestamp getUpdatedAt() {
         return updatedAt;
     }
-
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
@@ -67,7 +67,7 @@ public class DashboardsEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        DashboardsEntity that = (DashboardsEntity) o;
+        DashboardEntity that = (DashboardEntity) o;
 
         if (id != that.id) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;

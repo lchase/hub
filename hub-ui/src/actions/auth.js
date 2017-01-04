@@ -1,6 +1,6 @@
 import axios from 'axios';
 import cookie from 'react-cookie';
-import { API_URL_ROOT, LOGIN_URL, GENERAL_ERROR, CLIENT_ROOT_URL, DEFAULT_SESSION_EXPIRATION_SECONDS, MAX_SESSION_EXPIRATION, errorHandler } from './index';
+import { LOGIN_URL, REGISTRATION_URL, GENERAL_ERROR, CLIENT_ROOT_URL, DEFAULT_SESSION_EXPIRATION_SECONDS, MAX_SESSION_EXPIRATION, errorHandler } from './index';
 import * as ActionTypes from './types';
 
 export const JWT_TOKEN_COOKIE_NAME = "jwtToken";
@@ -10,7 +10,7 @@ export function loginUser({ email, password, rememberMe }) {
     //console.log('loginUser(...)', email, password, rememberMe, `${API_URL_ROOT}/auth/login`);
     //console.log(rememberMe === true);
     dispatch({ type: ActionTypes.AUTH_AJAX_INPROGRESS });
-    axios.post(`${LOGIN_URL}`, { username: email, password: password })
+    axios.post(`${LOGIN_URL}`, { email: email, password: password })
       .then(response => {
         let cookieOpts = {
           path: '/',
@@ -31,7 +31,7 @@ export function registerUser({ email, firstName, lastName, password }) {
   return function(dispatch) {
     //console.log('registerUser(...)', email, firstName, lastName, password, `${API_URL_ROOT}/auth/register`);
     dispatch({ type: ActionTypes.AUTH_AJAX_INPROGRESS });
-    axios.post(`${API_URL_ROOT}/auth/register`, { email: email, firstName: firstName, lastName: lastName, password: password })
+    axios.post(`${REGISTRATION_URL}`, { email: email, firstName: firstName, lastName: lastName, password: password })
       .then(response => {
         cookie.save(JWT_TOKEN_COOKIE_NAME, response.data.token, { path: '/', maxAge: DEFAULT_SESSION_EXPIRATION_SECONDS });
         // cookie.save('user', response.data.user, { path: '/', maxAge: DEFAULT_SESSION_EXPIRATION_SECONDS });

@@ -1,7 +1,8 @@
 package com.hub.api.config;
 
-import com.hub.api.model.UsersDto;
-import com.hub.api.model.UsersEntity;
+import com.hub.api.dto.UserDto;
+import com.hub.api.model.PreferenceEntity;
+import com.hub.api.security.model.User;
 import io.katharsis.internal.boot.TransactionRunner;
 import io.katharsis.jpa.JpaModule;
 import io.katharsis.jpa.JpaRepositoryConfig;
@@ -41,21 +42,23 @@ public class ModuleConfig {
         JpaModule module = JpaModule.newServerModule(em, transactionRunner);
 
         // directly expose entity
-        module.addRepository(JpaRepositoryConfig.builder(UsersEntity.class).build());
+        // TODO: do this automatically for all entities
+        module.addRepository(JpaRepositoryConfig.builder(User.class).build());
+        module.addRepository(JpaRepositoryConfig.builder(PreferenceEntity.class).build());
 
         // additionally expose entity as a mapped dto
-        module.addRepository(JpaRepositoryConfig.builder(UsersEntity.class, UsersDto.class,
+        module.addRepository(JpaRepositoryConfig.builder(User.class, UserDto.class,
                 new UserMapper()).build());
 
 //        // register a computed a attribute
 //        // you may consider QueryDSL or generating the Criteria query objects.
 //        JpaCriteriaQueryFactory queryFactory = (JpaCriteriaQueryFactory) module.getQueryFactory();
-//        queryFactory.registerComputedAttribute(UsersEntity.class, "upperName", String.class,
-//                new JpaCriteriaExpressionFactory<From<?, UsersEntity>>() {
+//        queryFactory.registerComputedAttribute(UserEntity.class, "upperName", String.class,
+//                new JpaCriteriaExpressionFactory<From<?, UserEntity>>() {
 //
 //                    @SuppressWarnings({ "rawtypes", "unchecked" })
 //                    @Override
-//                    public Expression<String> getExpression(From<?, UsersEntity> entity, CriteriaQuery<?> query) {
+//                    public Expression<String> getExpression(From<?, UserEntity> entity, CriteriaQuery<?> query) {
 //                        CriteriaBuilder builder = em.getCriteriaBuilder();
 //                        return builder.upper((Expression) entity.get("name"));
 //                    }
@@ -64,14 +67,14 @@ public class ModuleConfig {
         return module;
     }
 
-    class UserMapper implements JpaMapper<UsersEntity, UsersDto> {
+    class UserMapper implements JpaMapper<User, UserDto> {
 
         @Override
-        public UsersDto map(Tuple tuple) {
-            UsersDto dto = new UsersDto();
+        public UserDto map(Tuple tuple) {
+            UserDto dto = new UserDto();
 
             // first entry in tuple is the queried entity (if not configured otherwise)
-            UsersEntity entity = tuple.get(0, UsersEntity.class);
+            User entity = tuple.get(0, User.class);
             dto.setId(entity.getId());
             //dto.setName(entity.getName());
 
@@ -81,11 +84,11 @@ public class ModuleConfig {
         }
 
         @Override
-        public UsersEntity unmap(UsersDto dto) {
+        public User unmap(UserDto dto) {
             // get entity from database if already there
-            UsersEntity entity = em.find(UsersEntity.class, dto.getId());
+            User entity = em.find(User.class, dto.getId());
             if (entity == null) {
-                entity = new UsersEntity();
+                entity = new User();
                 entity.setId(dto.getId());
             }
             //entity.setName(dto.getName());

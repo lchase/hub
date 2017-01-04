@@ -11,6 +11,7 @@ export const MAX_SESSION_EXPIRATION = 365 * 24 * 60 * 60;  // 1 Year
 //TODO: remove this to configuration
 export const SERVER_URL_ROOT = 'http://localhost:8080/';
 export const LOGIN_URL = SERVER_URL_ROOT + 'auth/login/';
+export const REGISTRATION_URL = SERVER_URL_ROOT + 'auth/register/';
 export const API_URL_ROOT = SERVER_URL_ROOT + 'api/';
 export const CLIENT_ROOT_URL = 'http://localhost:4001/';
 

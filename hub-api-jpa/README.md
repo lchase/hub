@@ -6,7 +6,7 @@
 * "gradlew.bat bootRun" - downloads dependencies, builds, and starts the API server
 * Database configuration is currently hardcoded: MySQL:3306, database: "hub", root/blue.  You may need to apply the
 SQL script under src/main/resources/security_tables.sql, this will create "User", "Authority" and "UserAuthority" tables
-* To generate JWT token: POST to http://localhost:8080/auth with a body content like {"username":"user","password":"password"}
+* To generate JWT token: POST to http://localhost:8080/auth with a body content like {"email":"user","password":"password"}
 * Default users: admin/admin, user/password
 * Include JWT token in "Authorization" header in all subsequent requests
 * Some API endpoints
