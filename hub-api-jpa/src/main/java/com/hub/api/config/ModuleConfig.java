@@ -2,6 +2,7 @@ package com.hub.api.config;
 
 import com.hub.api.dto.UserDto;
 import com.hub.api.model.PreferenceEntity;
+import com.hub.api.organization.model.OrganizationUnitEntity;
 import com.hub.api.security.model.User;
 import io.katharsis.internal.boot.TransactionRunner;
 import io.katharsis.jpa.JpaModule;
@@ -45,6 +46,7 @@ public class ModuleConfig {
         // TODO: do this automatically for all entities
         module.addRepository(JpaRepositoryConfig.builder(User.class).build());
         module.addRepository(JpaRepositoryConfig.builder(PreferenceEntity.class).build());
+        module.addRepository(JpaRepositoryConfig.builder(OrganizationUnitEntity.class).build());
 
         // additionally expose entity as a mapped dto
         module.addRepository(JpaRepositoryConfig.builder(User.class, UserDto.class,
