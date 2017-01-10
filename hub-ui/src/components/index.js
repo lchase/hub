@@ -27,7 +27,7 @@ const UserIsAuthenticated = UserAuthWrapper({
   authSelector: state => state.user, // how to get the user state
   redirectAction: REPLACE, // the redux action to dispatch for redirect
   wrapperDisplayName: 'UserIsAuthenticated' // a nice name for this auth check
-})
+});
 
 export default class AdminLTETemplate extends Component {
   render() {

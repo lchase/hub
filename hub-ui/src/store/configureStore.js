@@ -3,9 +3,14 @@ import rootReducer from '../reducers';
 import DevTools from '../containers/DevTools';
 import reduxThunk from 'redux-thunk';
 
+import { createEpicMiddleware } from 'redux-observable';
+import { rootEpic } from '../rootEpic';
+
+const epicMiddleware = createEpicMiddleware(rootEpic);
+
 const enhancer = compose(
   // Middleware you want to use in development:
-  applyMiddleware(reduxThunk),
+  applyMiddleware(reduxThunk, epicMiddleware),
   // Required! Enable Redux DevTools with the monitors you chose
   DevTools.instrument()
 );

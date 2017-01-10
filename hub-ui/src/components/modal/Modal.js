@@ -60,6 +60,6 @@ Modal.propTypes = {
   open: React.PropTypes.bool,
   title: React.PropTypes.string,
   actionButtonText: React.PropTypes.string
-}
+};
 
 export default Modal;

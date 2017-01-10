@@ -2,7 +2,7 @@
 * "npm install" - installs all dependencies including webpack
 * "npm start" - Builds the UI module and starts the webpack development server,
 which also monitors changes to source files and auto-deploys them.
-* Navigate to "http://localhost:4001/". NOTE: make sure hub-api
+* Navigate to "http://localhost:4001/". NOTE: make sure hub-api-jpa
 is running before you do this, otherwise it won't work.
 * "npm test" - runs unit tests
 
@@ -12,6 +12,7 @@ is running before you do this, otherwise it won't work.
 * Wire up backend calls for dashboard (api needed as well)
 * Sort out dashboard grid and how that would be stored then implement that
 * Figure out how users pick shared dashboards or share private dashboards and view multiple dashboards
+* Optimize webpack build to only build vendor lib when dependencies change.  Also try to optimize size of build
 
 # Misc
 * ctrl-h toggles on/off dock monitor on the right.

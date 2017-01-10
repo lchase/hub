@@ -17,7 +17,8 @@ export class Navbar extends Component {
   }
 
   handleSidebarToggle() {
-    this.props.toggleSidebar(!this.isSidebarExpanded(), this.props.auth.user.id);
+    // this.props.toggleSidebar(!this.isSidebarExpanded(), this.props.auth.user.id);
+    this.props.toggleSidebar(!this.isSidebarExpanded());
   }
   
   isSidebarExpanded() {

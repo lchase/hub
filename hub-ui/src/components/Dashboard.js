@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import ChatWidget from './chat/ChatWidget';
 import AddDashboardDialog from './dashboard/AddDashboardDialog';
-var ReactGridLayout = require('react-grid-layout');
-
 import { DatePicker, Progress, Card } from 'antd';
+import PingWidget from '../ping/components/pingWidget';
+
+
+let ReactGridLayout = require('react-grid-layout');
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -16,7 +18,7 @@ export default class Dashboard extends Component {
 
   render() {
     // layout is an array of objects, see the demo for more complete usage
-    var layout = [
+    let layout = [
       {i: 'a', x: 0, y: 0, w: 4, h: 4, static: true},
       {i: 'b', x: 4, y: 0, w: 4, h: 4, minW: 2, maxW: 4},
       {i: 'c', x: 4, y: 1, w: 4, h: 4}
@@ -43,7 +45,7 @@ export default class Dashboard extends Component {
           <ChatWidget />
         </div>
         <div key={'b'}>
-          
+          <PingWidget />
         </div>
         <div key={'c'}>
           <ChatWidget />

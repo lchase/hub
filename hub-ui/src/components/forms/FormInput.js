@@ -2,7 +2,7 @@ import React from 'react';
 
 export default class FormInput extends React.Component {
   render() {
-    console.log(this.props);
+    console.log("FormInput props: " + this.props);
 
     var containerClassName = "form-group has-feedback";
     if (this.props.meta.touched && this.props.meta.error) {
