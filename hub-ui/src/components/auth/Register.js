@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { Field, reduxForm } from 'redux-form';
 import FormInput from '../forms/FormInput';
-
-import { registerUser } from '../../actions/auth';
+import auth from '../../auth';
 
 const form = reduxForm({
   form: 'register',
@@ -117,7 +116,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    registerUser: (user) => dispatch(registerUser(user))
+    registerUser: (user) => dispatch(auth.actions.registerUser(user))
   }
 }
 

@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form';
 import FormInput from '../forms/FormInput';
 import { bindActionCreators } from 'redux'
 
-import { loginUser } from '../../actions/auth';
+import auth from '../../auth';
 
 const validate = values => {
   const errors = {};
@@ -101,7 +101,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    login: loginUser
+    login: auth.actions.loginUser
   }, dispatch);
 }
 
