@@ -1,0 +1,2 @@
+INSERT INTO users values (-1, '$2a$10$WNHPWraFAOfbPA.goukqjujAfk1rr7Gc7.tm5y56NnbzPSHf1Bj.S', 'admin', 'admin', 'a@a.com', 1, '2017-01-10');
+INSERT INTO users values (-2, '$2a$10$WNHPWraFAOfbPA.goukqjujAfk1rr7Gc7.tm5y56NnbzPSHf1Bj.S', 'user', 'admin', 'user@default.com', 1, '2017-01-10');
