@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 public class DashboardWidgetEntity {
     @Id
     @Column(name = "Id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Basic
     @Column(name = "Column")

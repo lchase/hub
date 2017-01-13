@@ -11,6 +11,7 @@ import java.util.List;
 public class OrganizationUnitEntity {
     @Id
     @Column(name = "Id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "Name")
@@ -23,7 +24,7 @@ public class OrganizationUnitEntity {
 
     @Column(name = "IsPublic")
     @NotNull
-    private String isPublic;
+    private boolean isPublic;
 
     @Column(name = "CreatedBy")
     @NotNull
@@ -67,14 +68,14 @@ public class OrganizationUnitEntity {
     }
 
     public void setCreatedBy(int createdBy) {
-        createdBy = createdBy;
+        this.createdBy = createdBy;
     }
 
-    public String getIsPublic() {
+    public boolean getIsPublic() {
         return isPublic;
     }
 
-    public void setIsPublic(String isPublic) {
+    public void setIsPublic(boolean isPublic) {
         this.isPublic = isPublic;
     }
 

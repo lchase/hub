@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 public class PreferenceEntity {
     @Id
     @Column(name = "Id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "UserId")
     private int userId;
