@@ -9,7 +9,7 @@ module.exports = {
   hub: {
     apiHost: 'http://localhost:8080',
     credentials: {
-      username: 'user@user.com',
+      username: 'a@a.com',
       password: 'c'
     }
   },

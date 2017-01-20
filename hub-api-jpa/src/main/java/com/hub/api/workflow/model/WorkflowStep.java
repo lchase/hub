@@ -1,20 +1,22 @@
 package com.hub.api.workflow.model;
 
-import com.hub.api.organization.model.OrganizationUnitEntity;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Entity
-@Table(name = "workflows", schema = "hub")
-public class Workflow {
+@Table(name = "workflow_steps", schema = "hub")
+public class WorkflowStep {
     @Id
     @Column(name = "Id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "WorkflowId")
+    @NotNull
+    private String workflowId;
+
     @Column(name = "Uri")
+    @NotNull
     private String uri;
 
     @Column(name = "Name")
@@ -25,14 +27,10 @@ public class Workflow {
     @NotNull
     private String description;
 
-    @ManyToMany(fetch=FetchType.LAZY)
-    @JoinTable(
-            name="organization_unit_workflows",
-            joinColumns = @JoinColumn(name="WorkflowId", referencedColumnName = "Id"),
-            inverseJoinColumns = @JoinColumn(name="OrganizationUnitId", referencedColumnName = "Id")
-
-    )
-    private List<OrganizationUnitEntity> organizationUnits;
+    /* escaped because Order is a keyword */
+    @Column(name = "\"Order\"")
+    @NotNull
+    private int order;
 
     public int getId() {
         return id;
@@ -40,6 +38,14 @@ public class Workflow {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getWorkflowId() {
+        return workflowId;
+    }
+
+    public void setWorkflowId(String workflowId) {
+        this.workflowId = workflowId;
     }
 
     public String getUri() {
@@ -66,11 +72,11 @@ public class Workflow {
         this.description = description;
     }
 
-    public List<OrganizationUnitEntity> getOrganizationUnits() {
-        return organizationUnits;
+    public int getOrder() {
+        return order;
     }
 
-    public void setOrganizationUnits(List<OrganizationUnitEntity> organizationUnits) {
-        this.organizationUnits = organizationUnits;
+    public void setOrder(int order) {
+        this.order = order;
     }
 }

@@ -22,13 +22,21 @@ const log = bunyan.createLogger({
   ]
 });
 
+let app = {
+  token: null,
+  log: log,
+  config: config
+}
+
+const MiningUtil = require('./miningStrategy')(app);
+
 log.info('Collector starting up...');
 //log.debug('things are heating up', { temperature: 80, status: { started: 'yes', overheated: 'no' } });
 //log.warn('getting a bit hot', { temperature: 120 });
 //log.error('OOOOHHH it burns!', new Error('temperature: 200'));
 //log.fatal('I died! Do you know what that means???');
 
-cron.schedule('* * * * *', function() {
+//cron.schedule('* * * * *', function() {
   log.info('Running a task every minute: ', new Date());
 
   // if dynamic
@@ -62,9 +70,10 @@ cron.schedule('* * * * *', function() {
   } else {
     if (config.uris.explicit && config.uris.explicit.length > 0) {
       for(var i = 0; i < config.uris.explicit.length; i++) {
+        var rawUri = config.uris.explicit[i].uri;
         fetch(config.uris.explicit[i].uri + 'wfapi', {
-          method: 'get', 
-          headers: { 
+          method: 'get',
+          headers: {
             accept: 'application/json'
           }
         })
@@ -96,20 +105,32 @@ cron.schedule('* * * * *', function() {
           })
           .then(authJson => {
             var token = authJson.token; // authenticated token for future requests.
-
-            fetch(config.hub.apiHost + '/api/workflow/?filter[name]=' + workflowName, {
+            app.token = token;
+            var configGetWithToken = {
               method: 'get', 
               headers: {
                 'Content-Type': 'application/vnd.api+json',
                 'Authorization': token
               }
-            })
-            .then(res => res.json())
-            .then(workflowJson => {
-              log.info(workflowJson);
+            };
+            var configPatchWithToken = {
+              method: 'patch', 
+              headers: {
+                'Content-Type': 'application/vnd.api+json',
+                'Authorization': token
+              }
+            };
+            var configPostWithToken = {
+              method: 'post', 
+              headers: {
+                'Content-Type': 'application/vnd.api+json',
+                'Authorization': token
+              }
+            };
 
+            fetch(config.hub.apiHost + '/api/workflow/?filter[name]=' + workflowName, configGetWithToken).then(res => res.json())
+            .then(workflowJson => {
               var workflowId = null;
-              var method = 'post';
 
               var payload = {
                 data: {
@@ -117,7 +138,7 @@ cron.schedule('* * * * *', function() {
                   attributes: {
                     name: workflowName,
                     description: workflowName + ' description',
-                    uri: workflowUri
+                    uri: app.config.jenkins.host + workflowUri.replace('wfapi/describe', '')
                   }
                 }
               };
@@ -136,7 +157,8 @@ cron.schedule('* * * * *', function() {
                 })
                 .then(res => res.json())
                 .then(json => {
-                  log.info(json);
+                  //log.info(json);
+                  MiningUtil.mine(rawUri, workflowId);
                 })
               } else {
                 log.info('create workflow: ' + workflowName);
@@ -150,10 +172,10 @@ cron.schedule('* * * * *', function() {
                 })
                 .then(res => res.json())
                 .then(json => {
-                  log.info(json);
+                  workflowId = json.data.id;
+                  MiningUtil.mine(rawUri, workflowId);
                 })
               }
-
             })
             .catch(err => {
               log.error(err);
@@ -161,18 +183,6 @@ cron.schedule('* * * * *', function() {
           })
           .catch(err => {
             log.error(err);
-          });
-        })
-        .catch(err => {
-          log.error(err);
-        });
-
-        fetch(config.uris.explicit[i].uri + 'wfapi/runs', { method: 'get', headers: { accept: 'application/json' } })
-        .then(res => res.json())
-        .then(json => {
-          fs.writeFile('./log/' + moment().format('YYYY-MM-DD_HH-mm-ss') + '-dump-wfapi-runs.json',
-            JSON.stringify(json, null, 2), function (err) {
-            if (err) return log.error(err);
           });
         })
         .catch(err => {
@@ -188,4 +198,4 @@ cron.schedule('* * * * *', function() {
   // * Read data from source
   // * Transform or manipulate the data for publishing to the hub
   // * Load the data into the hub via the API
-});
+//});

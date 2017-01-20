@@ -5,7 +5,6 @@ CREATE TABLE `workflows` (
 	`Description` VARCHAR(500) NOT NULL,
 	PRIMARY KEY (`Id`)
 )
-COLLATE='latin1_swedish_ci'
 ENGINE=InnoDB
 ;
 
@@ -20,3 +19,16 @@ CREATE TABLE `organization_unit_workflows` (
 ENGINE=InnoDB
 ;
 
+CREATE TABLE `workflow_steps` (
+	`Id` INT(11) NOT NULL AUTO_INCREMENT,
+	`WorkflowId` INT(11) NOT NULL DEFAULT '0',
+	`Uri` VARCHAR(500) NOT NULL,
+	`Name` VARCHAR(150) NOT NULL,
+	`Description` VARCHAR(500) NOT NULL,
+	`Order` INT NOT NULL DEFAULT '0',
+	PRIMARY KEY (`Id`),
+	INDEX `FK__workflow_step_workflows` (`WorkflowId`),
+	CONSTRAINT `FK__workflow_step_workflows` FOREIGN KEY (`WorkflowId`) REFERENCES `workflows` (`Id`)
+)
+ENGINE=InnoDB
+;

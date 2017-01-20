@@ -1,3 +1,12 @@
+# Issues
+* Looking up prior workflow step runs isn't working in the rest api.  A url like this
+```http://localhost:8080/api/workflowStepRun/?filter[workflowStepId]=474&filter[start]=2015-01-01```
+fails with 404 while this one
+```http://localhost:8080/api/workflowStepRun/?filter[workflowStepId]=474```
+or even this one
+```http://localhost:8080/api/workflowStepRun/?filter[workflowStepId]=474&filter[id]=1```
+just return the empty data payload.  I don't know if it is related to the start being a date field or something.
+
 # Running the app
 
 Pre-requisites:
