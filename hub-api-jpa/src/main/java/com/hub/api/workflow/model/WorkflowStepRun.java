@@ -14,7 +14,7 @@ public class WorkflowStepRun {
 
     @Column(name = "WorkflowStepId")
     @NotNull
-    private String workflowStepId;
+    private int workflowStepId;
 
     @Column(name = "Status")
     @NotNull
@@ -36,11 +36,11 @@ public class WorkflowStepRun {
         this.id = id;
     }
 
-    public String getWorkflowStepId() {
+    public int getWorkflowStepId() {
         return workflowStepId;
     }
 
-    public void setWorkflowStepId(String workflowStepId) {
+    public void setWorkflowStepId(int workflowStepId) {
         this.workflowStepId = workflowStepId;
     }
 

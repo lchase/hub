@@ -21,4 +21,3 @@ SQL script under src/main/resources/security_tables.sql, this will create "User"
 * Automatically create/register Katharsis repositories based on JPA model definitions in specific packages
 * Create file log configuration with logback
 * Consolidate application.properties and application.yml files
-* Consolidate "User" and "Users" tables ("Users" is used by existing node API)
