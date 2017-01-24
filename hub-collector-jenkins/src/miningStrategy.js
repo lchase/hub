@@ -225,8 +225,11 @@ module.exports = function(app) {
             }
             //module.app.log.debug(stageRun);
 
-            module.app.log.debug(module.app.config.hub.apiHost + '/api/workflowStepRun/?filter[workflowStepId]=' + stageRun.attributes.workflowStepId + '&filter[start]=' + stageRun.attributes.start);
-            fetch(module.app.config.hub.apiHost + '/api/workflowStepRun/?filter[workflowStepId]=' + stageRun.attributes.workflowStepId + '&filter[start]=' + stageRun.attributes.start,
+            // Sat, 12 Aug 1995 13:30:00 GMT
+            let startDateFormattedForKatharsisStupidity = moment(stageRun.attributes.start).format("ddd, D MMM YYYY HH:mm:ss z");
+
+            module.app.log.debug(module.app.config.hub.apiHost + '/api/workflowStepRun/?filter[workflowStepId]=' + stageRun.attributes.workflowStepId + '&filter[start]=' + startDateFormattedForKatharsisStupidity);
+            fetch(module.app.config.hub.apiHost + '/api/workflowStepRun/?filter[workflowStepId]=' + stageRun.attributes.workflowStepId + '&filter[start]=' + startDateFormattedForKatharsisStupidity,
               Object.assign(
                 { method: 'get' },
                 module.fetchHubHeaders
@@ -235,7 +238,7 @@ module.exports = function(app) {
             .then(respStepRunLookup => respStepRunLookup.json())
             .then(respStepRunLookupJson => {
               module.app.log.debug(respStepRunLookupJson);
-              /*
+
               if (respStepRunLookupJson.data.length == 0) {
                 fetch(module.app.config.hub.apiHost + '/api/workflowStepRun/',
                   Object.assign(
@@ -252,7 +255,6 @@ module.exports = function(app) {
                   module.app.log.info(respAddJson);
                 })
               }
-              */
             })
             .catch(err => {
               module.app.log.error(err)
