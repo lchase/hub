@@ -150,12 +150,15 @@ module.exports = function(app) {
             .then(respAdd => respAdd.json())
             .then(respAddJson => {
               //module.app.log.info(respAddJson);
-              module.mineStages(workflowId, entry);
+              module.mineStages(workflowId, respAddJson.data.id, entry);
             })
           } else {
             //module.app.log.info('Found item with id: ' + entry.id + ', update it');
+
             workflowRun.id = respLookupJson.data[0].id;
-            fetch(module.app.config.hub.apiHost + '/api/workflowRun/' + respLookupJson.data[0].id,
+            //module.app.log.info(workflowRun);
+
+            fetch(module.app.config.hub.apiHost + '/api/workflowRun/' + workflowRun.id,
             Object.assign(
               { method: 'patch' },
               module.fetchHubHeaders,
@@ -166,8 +169,9 @@ module.exports = function(app) {
             .then(respAdd => respAdd.json())
             .then(respAddJson => {
               //module.app.log.info(respAddJson);
-              module.mineStages(workflowId, entry);
+              module.mineStages(workflowId, workflowRun.id, entry);
             })
+
           }
         })
         .catch(err => {
@@ -180,7 +184,7 @@ module.exports = function(app) {
     })
   }
 
-  module.mineStages = function(workflowId, entry) {
+  module.mineStages = function(workflowId, workflowRunId, entry) {
     //module.app.log.debug(entry);
     for(let i = 0; i < entry.stages.length; i++) {
       let stageEntry = entry.stages[i];
@@ -218,6 +222,7 @@ module.exports = function(app) {
               type: 'workflowStepRun',
               attributes: {
                 workflowStepId: respLookupJson.data[0].id,
+                workflowRunId: workflowRunId,
                 status: stageEntry.status,
                 start: stageEntry.startTimeMillis,
                 duration: stageEntry.durationMillis
@@ -237,7 +242,7 @@ module.exports = function(app) {
             )
             .then(respStepRunLookup => respStepRunLookup.json())
             .then(respStepRunLookupJson => {
-              module.app.log.debug(respStepRunLookupJson);
+              //module.app.log.debug(respStepRunLookupJson);
 
               if (respStepRunLookupJson.data.length == 0) {
                 fetch(module.app.config.hub.apiHost + '/api/workflowStepRun/',
@@ -252,7 +257,7 @@ module.exports = function(app) {
                 .then(respAdd => respAdd.json())
                 .then(respAddJson => {
                   module.app.log.info('Successfully added step run');
-                  module.app.log.info(respAddJson);
+                  //module.app.log.info(respAddJson);
                 })
               }
             })

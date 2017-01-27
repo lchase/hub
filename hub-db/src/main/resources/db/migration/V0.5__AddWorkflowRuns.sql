@@ -12,13 +12,17 @@ ENGINE=InnoDB
 ;
 
 CREATE TABLE `workflow_step_runs` (
-	`Id` BIGINT NOT NULL AUTO_INCREMENT,
-	`WorkflowStepId` INT NOT NULL,
+	`Id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+	`WorkflowStepId` INT(11) NOT NULL,
+	`WorkflowRunId` BIGINT NOT NULL,
 	`Status` VARCHAR(50) NOT NULL,
 	`Start` DATETIME NOT NULL,
 	`Duration` FLOAT NOT NULL,
 	PRIMARY KEY (`Id`),
-	CONSTRAINT `FK__workflow_steps` FOREIGN KEY (`WorkflowStepId`) REFERENCES `workflow_steps` (`Id`)
+	INDEX `FK__workflow_steps` (`WorkflowStepId`),
+	CONSTRAINT `FK__workflow_steps` FOREIGN KEY (`WorkflowStepId`) REFERENCES `workflow_steps` (`Id`),
+	CONSTRAINT `FK_workflow_step_runs_workflow_runs` FOREIGN KEY (`WorkflowRunId`) REFERENCES `workflow_runs` (`Id`)
 )
 ENGINE=InnoDB
 ;
+
