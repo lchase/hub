@@ -1,4 +1,4 @@
-package com.hub.api.model;
+package com.hub.api.dashboard.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;

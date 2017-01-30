@@ -1,64 +1,60 @@
-package com.hub.api.model;
+package com.hub.api.dashboard.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "widgets", schema = "hub")
-public class WidgetEntity {
-    private int id;
-    private String name;
-    private String description;
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
-
+@Table(name = "dashboard_widgets", schema = "hub")
+public class DashboardWidgetEntity {
     @Id
     @Column(name = "Id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @Basic
+    @Column(name = "Column")
+    private int column;
+    @Basic
+    @Column(name = "Row")
+    private int row;
+    @Basic
+    @Column(name = "CreatedAt")
+    private Timestamp createdAt;
+    @Basic
+    @Column(name = "UpdatedAt")
+    private Timestamp updatedAt;
+
+
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "Name")
-    public String getName() {
-        return name;
+    public int getColumn() {
+        return column;
+    }
+    public void setColumn(int col) {
+        this.column = col;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public int getRow() {
+        return row;
+    }
+    public void setRow(int row) {
+        this.row = row;
     }
 
-    @Basic
-    @Column(name = "Description")
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Basic
-    @Column(name = "CreatedAt")
     public Timestamp getCreatedAt() {
         return createdAt;
     }
-
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    @Basic
-    @Column(name = "UpdatedAt")
     public Timestamp getUpdatedAt() {
         return updatedAt;
     }
-
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
@@ -68,11 +64,11 @@ public class WidgetEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        WidgetEntity that = (WidgetEntity) o;
+        DashboardWidgetEntity that = (DashboardWidgetEntity) o;
 
         if (id != that.id) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (column != that.column) return false;
+        if (row != that.row) return false;
         if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
         if (updatedAt != null ? !updatedAt.equals(that.updatedAt) : that.updatedAt != null) return false;
 
@@ -82,8 +78,8 @@ public class WidgetEntity {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + column;
+        result = 31 * result + row;
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         return result;

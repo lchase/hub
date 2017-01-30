@@ -11,6 +11,7 @@ import com.hub.api.workflow.model.WorkflowStepRun;
 import io.katharsis.internal.boot.TransactionRunner;
 import io.katharsis.jpa.JpaModule;
 import io.katharsis.jpa.JpaRepositoryConfig;
+import io.katharsis.jpa.JpaRepositoryFilter;
 import io.katharsis.jpa.mapping.JpaMapper;
 import io.katharsis.jpa.query.Tuple;
 import io.katharsis.validation.ValidationModule;
@@ -43,8 +44,10 @@ public class ModuleConfig {
      * @return module
      */
     @Bean
-    public JpaModule jpaModule() {
+    public JpaModule jpaModule(JpaRepositoryFilter jpaRepositoryFilter) {
         JpaModule module = JpaModule.newServerModule(em, transactionRunner);
+
+        module.addFilter(jpaRepositoryFilter);
 
         // directly expose entity
         // TODO: do this automatically for all entities
