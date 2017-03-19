@@ -1,14 +1,21 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const validate = require('webpack-validator');
 const merge = require('webpack-merge');
 const pkg = require('./package.json');
 const wpHelpers = require('./wp.helpers');
 
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-let extractCSS = new ExtractTextPlugin('[name].css');
-let extractLESS = new ExtractTextPlugin('[name].less');
+let extractCSS = new ExtractTextPlugin({
+  filename: "[name].css",
+  disable: false,
+  allChunks: true
+});
+let extractLESS = new ExtractTextPlugin({
+  filename: "[name].less",
+  disable: false,
+  allChunks: true
+});
 
 const PATHS = {
   app: path.join(__dirname, 'src'),
@@ -30,13 +37,13 @@ const PATHS = {
   fonts: [
     path.join(__dirname, 'public', 'bootstrap', 'fonts', 'glpyhicons-halflings-regular.eot'),
   ]
-}
+};
 
-var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
+let HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   template: __dirname + '/src/index.html',
   filename: 'index.html',
   inject: 'body'
-})
+});
 
 const common = {
   entry: {
@@ -48,44 +55,32 @@ const common = {
     port: 4001
   },
   module: {
-    preLoaders: [
-      {
-        test: /\.json$/,
-        loader: 'json',
-        include: PATHS.app,
-        exclude: [__dirname + '/node_modules', __dirname + '/build']
-      }
-    ],
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
         exclude: /(node_modules|bower_components)/,
-        loader: 'babel',
+        use: 'babel-loader',
         include: PATHS.app
       },
       {
-        test: /\.json$/, 
-        loader: 'json-loader'
-      },
-      {
         test: /\.less$/,
-        loader: 'style!css!less', /* extractLESS.extract(['css', 'less']),*/
+        use: extractLESS.extract(['css-loader', 'less-loader']),
         include: PATHS.style
       },
       {
         test: /\.css$/,
-        loader: extractCSS.extract(['css']),
+        use: extractCSS.extract(['css-loader']),
         include: PATHS.style
       }, 
       {
         test: /\.(jpg|png)$/,
-        loader: 'url?limit=10000',
+        use: 'url-loader?limit=10000',
         include: PATHS.images
       },
-      {test: /\.woff(2)?(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff" },
-      {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream" },
-      {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
-      {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=image/svg+xml" }
+      {test: /\.woff(2)?(\?v=\d+\.\d+\.\d+)?$/, use: "url-loader?limit=10000&mimetype=application/font-woff" },
+      {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, use: "url-loader?limit=10000&mimetype=application/octet-stream" },
+      {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, use: "file-loader" },
+      {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, use: "url-loader?limit=10000&mimetype=image/svg+xml" }
     ]
   },
   output: {
@@ -102,9 +97,9 @@ const common = {
     extractCSS,
     extractLESS
   ]
-} 
+};
 
-var config = {};
+let config = {};
 
 switch(process.env.npm_lifecycle_event) {
   case 'build':
@@ -126,4 +121,4 @@ switch(process.env.npm_lifecycle_event) {
     );
 }
 
-module.exports = validate(config);
+module.exports = config;
