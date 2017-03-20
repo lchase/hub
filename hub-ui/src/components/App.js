@@ -7,7 +7,6 @@ import _ from 'lodash';
 
 import enUS from 'antd/lib/locale-provider/en_US';
 import { LocaleProvider } from 'antd';
-import 'antd/dist/antd.css';
 
 export class App extends Component {
   constructor() {

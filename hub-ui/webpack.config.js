@@ -95,7 +95,11 @@ const common = {
       }
     }),
     extractCSS,
-    extractLESS
+    extractLESS,
+    //TODO: use DllPlugin to further optimize build time
+    new webpack.optimize.CommonsChunkPlugin({
+      names: ['vendor', 'manifest']
+    })
   ]
 };
 
