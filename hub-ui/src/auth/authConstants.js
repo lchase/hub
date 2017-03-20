@@ -1,6 +1,6 @@
 //import * as BaseConstants from '../actions';
 
-export const JWT_TOKEN_COOKIE_NAME = "jwtToken";
+export const HUB_JWT_TOKEN_COOKIE_NAME = "hubJwtToken";
 
 export const DEFAULT_SESSION_EXPIRATION_SECONDS = 60 * 60;  // 1 hour
 export const MAX_SESSION_EXPIRATION = 365 * 24 * 60 * 60;  // 1 Year

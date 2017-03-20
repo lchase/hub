@@ -6,7 +6,6 @@ const INIT_STATE = {
 }
 
 export default function (state = INIT_STATE, action) {
-  console.log('dashboard_reducer', action.type);
   switch(action.type) {
     case SHOW_CREATE_DASHBOARD_DIALOG:
       return objectAssign({}, state, { showCreateDashboardDialog: true });

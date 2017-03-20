@@ -1,5 +1,6 @@
 package com.hub.api.config;
 
+import com.hub.api.dashboard.model.DashboardEntity;
 import com.hub.api.dto.UserDto;
 import com.hub.api.model.PreferenceEntity;
 import com.hub.api.organization.model.OrganizationUnitEntity;
@@ -58,6 +59,7 @@ public class ModuleConfig {
         module.addRepository(JpaRepositoryConfig.builder(WorkflowRun.class).build());
         module.addRepository(JpaRepositoryConfig.builder(WorkflowStep.class).build());
         module.addRepository(JpaRepositoryConfig.builder(WorkflowStepRun.class).build());
+        module.addRepository(JpaRepositoryConfig.builder(DashboardEntity.class).build());
 
         // additionally expose entity as a mapped dto
         module.addRepository(JpaRepositoryConfig.builder(User.class, UserDto.class,

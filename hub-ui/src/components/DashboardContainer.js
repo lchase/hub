@@ -6,7 +6,8 @@ import * as DashboardActions from '../actions/dashboard';
 
 export class DashboardContainer extends Component {
   componentWillMount() {
-    //this.props.getDefaultDashboard(this.props.auth.user.email);
+    //TODO: update API to handle default dashboard retrieval.  Pass dashboard into child component.
+    this.props.getDefaultDashboard(this.props.auth.user.email);
   }
   
   render() {

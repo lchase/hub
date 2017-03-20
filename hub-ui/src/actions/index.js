@@ -42,7 +42,7 @@ export function postData(action, errorType, isAuthReq, url, dispatch, data) {
   let headers = {};
 
   if (isAuthReq) {
-    headers = { headers: { 'Authorization': cookie.load(auth.constants.JWT_TOKEN_COOKIE_NAME) } };
+    headers = { headers: { 'Authorization': cookie.load(auth.constants.HUB_JWT_TOKEN_COOKIE_NAME) } };
   }
 
   axios.post(requestUrl, data, headers)
@@ -63,7 +63,7 @@ export function getData(action, errorType, isAuthReq, url, dispatch) {
   let headers = {};
 
   if (isAuthReq) {
-    headers = { headers: { 'Authorization': cookie.load(auth.constants.JWT_TOKEN_COOKIE_NAME) } };
+    headers = { headers: { 'Authorization': cookie.load(auth.constants.HUB_JWT_TOKEN_COOKIE_NAME) } };
   }
 
   axios.get(url, headers)
@@ -84,7 +84,7 @@ export function putData(action, errorType, isAuthReq, url, dispatch, data) {
   let headers = {};
 
   if (isAuthReq) {
-    headers = {headers: { 'Authorization': cookie.load(auth.constants.JWT_TOKEN_COOKIE_NAME) }};
+    headers = {headers: { 'Authorization': cookie.load(auth.constants.HUB_JWT_TOKEN_COOKIE_NAME) }};
   }
 
   axios.put(requestUrl, data, headers)
@@ -105,7 +105,7 @@ export function deleteData(action, errorType, isAuthReq, url, dispatch) {
   let headers = {};
 
   if(isAuthReq) {
-    headers = {headers: { 'Authorization': cookie.load(auth.constants.JWT_TOKEN_COOKIE_NAME) }};
+    headers = {headers: { 'Authorization': cookie.load(auth.constants.HUB_JWT_TOKEN_COOKIE_NAME) }};
   }
 
   axios.delete(requestUrl, headers)

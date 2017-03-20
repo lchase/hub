@@ -9,19 +9,19 @@ export const LOAD_USER_PREFERENCES_REQUEST = 'LOAD_USER_PREFERENCES_REQUEST';
 export const LOAD_USER_PREFERENCES_COMPLETE = 'LOAD_USER_PREFERENCES_COMPLETE';
 export const LOAD_USER_PREFERENCES_ERROR = 'LOAD_USER_PREFERENCES_ERROR';
 
+const PREFERENCE_ENDPOINT = "preference";
+
 export function loadPreferences(userId) {
   return function(dispatch) {
-    //console.log('registerUser(...)', email, firstName, lastName, password, `${API_URL_ROOT}/auth/register`);
     dispatch({ type: LOAD_USER_PREFERENCES_REQUEST });
 
     getData(LOAD_USER_PREFERENCES_COMPLETE, LOAD_USER_PREFERENCES_ERROR, true,
-      `${API_URL_ROOT}preference/user/${userId}`, dispatch);
+      `${API_URL_ROOT}${PREFERENCE_ENDPOINT}/user/${userId}`, dispatch);
   }
 }
 
 export function toggleSidebar(expanded, userId) {
   return function(dispatch) {
-    //console.log('registerUser(...)', email, firstName, lastName, password, `${API_URL_ROOT}/auth/register`);
     dispatch({ type: TOGGLE_SIDEBAR_REQUEST });
 
     let payload = { 
@@ -35,7 +35,7 @@ export function toggleSidebar(expanded, userId) {
       }
     };
     console.log(payload);
-    axios.post(`${API_URL_ROOT}/preference`, payload)
+    axios.post(`${API_URL_ROOT}${PREFERENCE_ENDPOINT}`, payload)
     .then(response => {
       dispatch({ type: TOGGLE_SIDEBAR_COMPLETE, payload: response.data });
     })
