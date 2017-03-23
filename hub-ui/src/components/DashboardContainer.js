@@ -7,7 +7,7 @@ import db from '../dashboard';
 export class DashboardContainer extends Component {
   componentWillMount() {
     console.log('DashboardContainer.componentWillMount', this.props);
-    this.props.getDefaultDashboard(this.props.auth.user.email);
+    //this.props.getDefaultDashboard(this.props.auth.user.email);
   }
 
   render() {

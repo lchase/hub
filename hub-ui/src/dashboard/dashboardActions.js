@@ -1,7 +1,7 @@
 import axios from 'axios';
 import cookie from 'react-cookie';
 import * as BaseConstants from '../actions';
-import * as ActionTypes from './DashboardActionTypes';
+import * as ActionTypes from './dashboardActionTypes';
 
 export function loadDefaultDashboard(email) {
   return function(dispatch) {
