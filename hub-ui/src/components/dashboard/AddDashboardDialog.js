@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Modal from '../modal/Modal';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-import { showCreateDashboardDialog, hideCreateDashboardDialog } from '../../actions/dashboard';
+import { showCreateDashboardDialog, hideCreateDashboardDialog } from '../../dashboard';
 import { Field, reduxForm } from 'redux-form';
 import FormInput from '../forms/FormInput';
 
@@ -33,7 +33,7 @@ export class AddDashboardDialog extends Component {
   constructor() {
     super(...arguments);
   }
-  
+
   handleOnClose() {
     this.props.hide();
   }
@@ -57,7 +57,7 @@ export class AddDashboardDialog extends Component {
             {this.renderAlert()}
             <Field name="name" component={FormInput} type="text" className="form-control" label="Name" placeholder="Name" inlineIco="glyphicon-pencil" />
             <Field name="description" component={FormInput} type="text" className="form-control" placeholder="Description" inlineIco="glyphicon-pencil" />
-            
+
             <div className="row">
               <div className="col-xs-8">
                 <div>
@@ -66,11 +66,11 @@ export class AddDashboardDialog extends Component {
                   </label>
                 </div>
               </div>
-              
+
               <div className="col-xs-4">
                 <button type="submit" className="btn btn-primary btn-block btn-flat">Create</button>
               </div>
-              
+
             </div>
           </form>
         </Modal>

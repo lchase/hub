@@ -3,13 +3,15 @@ import ChatWidget from './chat/ChatWidget';
 import AddDashboardDialog from './dashboard/AddDashboardDialog';
 import { DatePicker, Progress, Card } from 'antd';
 import PingWidget from '../ping/components/pingWidget';
+import { connect } from 'react-redux';
 
 
 let ReactGridLayout = require('react-grid-layout');
 
-export default class Dashboard extends Component {
+export class Dashboard extends Component {
   constructor(props) {
     super(props);
+    console.log('Dashboard.constructor', props);
   }
 
   handleOnNewDashboardClick() {
@@ -26,6 +28,22 @@ export default class Dashboard extends Component {
     console.log('Dashboard.render() state', this.state);
     return (
       <div>
+        Dashboard Page...
+      </div>
+    )
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    dbg: state
+  }
+}
+
+export default connect(mapStateToProps)(Dashboard);
+
+/*
+
       <DatePicker />
       <Card title="Card title" extra={<a href="#">More</a>} style={{ width: 300 }}>
         <div>
@@ -51,7 +69,5 @@ export default class Dashboard extends Component {
           <ChatWidget />
         </div>
       </ReactGridLayout>
-      </div>
-    )
-  }
-}
+
+*/

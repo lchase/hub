@@ -119,6 +119,7 @@ module.exports = function(app) {
           type: 'workflowRun',
           attributes: {
             workflowId: workflowId,
+            name: entry.name,
             uri: module.app.config.jenkins.host + entry._links.self.href.replace('wfapi/describe', ''),
             status: entry.status,
             start: entry.startTimeMillis,

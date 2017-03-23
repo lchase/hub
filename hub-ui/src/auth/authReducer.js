@@ -15,6 +15,7 @@ export default function (state = INIT_STATE, action) {
     case AUTH_AJAX_IN_PROGRESS:
       return objectAssign(state, { ajaxInProgress: true });
     case AUTH_USER:
+      console.log(action.payload);
       return objectAssign(state, { error: null, message: null, authenticated: true, ajaxInProgress: false, user: action.payload });
     case UNAUTH_USER:
       return objectAssign(state, { authenticated: false, ajaxInProgress: false });

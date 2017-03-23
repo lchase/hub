@@ -21,3 +21,4 @@ SQL script under src/main/resources/security_tables.sql, this will create "User"
 * Automatically create/register Katharsis repositories based on JPA model definitions in specific packages
 * Create file log configuration with logback
 * Consolidate application.properties and application.yml files
+* Implemented support for relationships http://localhost:8080/api/workflow?include=organizationUnits,workflowRuns but need to do workflow stages and workflow step runs

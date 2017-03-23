@@ -11,9 +11,10 @@ public class WorkflowStep {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    /*
     @Column(name = "WorkflowId")
     @NotNull
-    private String workflowId;
+    private String workflowId;*/
 
     @Column(name = "Uri")
     @NotNull
@@ -32,6 +33,10 @@ public class WorkflowStep {
     @NotNull
     private int order;
 
+    @ManyToOne
+    @JoinColumn(name = "WorkflowId")
+    private Workflow workflow;
+
     public int getId() {
         return id;
     }
@@ -40,6 +45,7 @@ public class WorkflowStep {
         this.id = id;
     }
 
+    /*
     public String getWorkflowId() {
         return workflowId;
     }
@@ -47,6 +53,7 @@ public class WorkflowStep {
     public void setWorkflowId(String workflowId) {
         this.workflowId = workflowId;
     }
+    */
 
     public String getUri() {
         return uri;
@@ -78,5 +85,13 @@ public class WorkflowStep {
 
     public void setOrder(int order) {
         this.order = order;
+    }
+
+    public Workflow getWorkflow() {
+        return workflow;
+    }
+
+    public void setWorkflow(Workflow workflow) {
+        this.workflow = workflow;
     }
 }

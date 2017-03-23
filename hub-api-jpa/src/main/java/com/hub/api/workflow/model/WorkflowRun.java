@@ -12,9 +12,15 @@ public class WorkflowRun {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    /*
     @Column(name = "WorkflowId")
     @NotNull
     private String workflowId;
+    */
+
+    @Column(name= "Name")
+    @NotNull
+    private String name;
 
     @Column(name = "Uri")
     @NotNull
@@ -32,6 +38,10 @@ public class WorkflowRun {
     @NotNull
     private float duration;
 
+    @ManyToOne
+    @JoinColumn(name = "WorkflowId")
+    private Workflow workflow;
+
     public int getId() {
         return id;
     }
@@ -40,13 +50,14 @@ public class WorkflowRun {
         this.id = id;
     }
 
+    /*
     public String getWorkflowId() {
         return workflowId;
     }
 
     public void setWorkflowId(String workflowId) {
         this.workflowId = workflowId;
-    }
+    }*/
 
     public String getUri() {
         return uri;
@@ -78,5 +89,21 @@ public class WorkflowRun {
 
     public void setDuration(float duration) {
         this.duration = duration;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Workflow getWorkflow() {
+        return workflow;
+    }
+
+    public void setWorkflow(Workflow workflow) {
+        this.workflow = workflow;
     }
 }

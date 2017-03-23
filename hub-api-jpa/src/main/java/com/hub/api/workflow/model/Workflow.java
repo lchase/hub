@@ -1,6 +1,7 @@
 package com.hub.api.workflow.model;
 
 import com.hub.api.organization.model.OrganizationUnitEntity;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,7 +26,7 @@ public class Workflow {
     @NotNull
     private String description;
 
-    @ManyToMany(fetch=FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name="organization_unit_workflows",
             joinColumns = @JoinColumn(name="WorkflowId", referencedColumnName = "Id"),
@@ -33,6 +34,12 @@ public class Workflow {
 
     )
     private List<OrganizationUnitEntity> organizationUnits;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="workflow")
+    private List<WorkflowRun> workflowRuns;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="workflow")
+    private List<WorkflowStep> workflowSteps;
 
     public int getId() {
         return id;
@@ -72,5 +79,21 @@ public class Workflow {
 
     public void setOrganizationUnits(List<OrganizationUnitEntity> organizationUnits) {
         this.organizationUnits = organizationUnits;
+    }
+
+    public List<WorkflowRun> getWorkflowRuns() {
+        return workflowRuns;
+    }
+
+    public void setWorkflowRuns(List<WorkflowRun> workflowRuns) {
+        this.workflowRuns = workflowRuns;
+    }
+
+    public List<WorkflowStep> getWorkflowSteps() {
+        return workflowSteps;
+    }
+
+    public void setWorkflowSteps(List<WorkflowStep> workflowSteps) {
+        this.workflowSteps = workflowSteps;
     }
 }

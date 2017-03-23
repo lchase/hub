@@ -24,7 +24,7 @@ export function toggleSidebar(expanded, userId) {
   return function(dispatch) {
     dispatch({ type: TOGGLE_SIDEBAR_REQUEST });
 
-    let payload = { 
+    let payload = {
       data: {
         type: "preferences",
         attributes: {

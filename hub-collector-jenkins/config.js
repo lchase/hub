@@ -1,6 +1,6 @@
 module.exports = {
   jenkins: {
-    host: 'http://atljenkinsstaging.lab.local:8080',
+    host: 'http://jenkinswfm.lab.local:8080',
     credentials: {
       username: 'lchase',
       token: 'c0e4276e51310eb2d50018e34a196f6a'
@@ -16,7 +16,7 @@ module.exports = {
   uris: {
     /*dynamic: true, In theory we would do discovery but Jenkin's api is ugly, folders are jobs too */
     explicit: [
-      { uri: 'http://lchase:c0e4276e51310eb2d50018e34a196f6a@atljenkinsstaging.lab.local:8080/job/FTW/job/WFM/job/WFM-Workflow/' }
+      { uri: 'http://lchase:c0e4276e51310eb2d50018e34a196f6a@jenkinswfm.lab.local:8080/job/WFM/job/dev/job/WFM_dev_Pipeline/' }
     ]
   }
 }

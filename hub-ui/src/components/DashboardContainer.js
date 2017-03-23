@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Dashboard from './Dashboard';
-import * as DashboardActions from '../actions/dashboard'; 
+import db from '../dashboard';
 
 export class DashboardContainer extends Component {
   componentWillMount() {
-    //TODO: update API to handle default dashboard retrieval.  Pass dashboard into child component.
+    console.log('DashboardContainer.componentWillMount', this.props);
     this.props.getDefaultDashboard(this.props.auth.user.email);
   }
-  
+
   render() {
     return (
       <Dashboard config={this.props.defaultDashboard} />
@@ -26,7 +26,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    getDefaultDashboard: DashboardActions.loadDefaultDashboard
+    getDefaultDashboard: db.actions.loadDefaultDashboard
   }, dispatch)
 }
 
