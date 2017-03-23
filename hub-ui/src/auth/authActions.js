@@ -15,8 +15,9 @@ export function loginUser({ email, password, rememberMe }) {
           maxAge: rememberMe ? AuthConstants.MAX_SESSION_EXPIRATION : AuthConstants.DEFAULT_SESSION_EXPIRATION_SECONDS
         };
         console.log('login user', response.data);
-        cookie.save(AuthConstants.JWT_TOKEN_COOKIE_NAME, response.data.token, cookieOpts);
-        dispatch({ type: ActionTypes.AUTH_USER });
+        cookie.save(AuthConstants.HUB_JWT_TOKEN_COOKIE_NAME, response.data.token, { path: '/', maxAge: AuthConstants.DEFAULT_SESSION_EXPIRATION_SECONDS });
+        // cookie.save('user', response.data.user, { path: '/', maxAge: DEFAULT_SESSION_EXPIRATION_SECONDS });
+        dispatch(authUser(email));
         window.location.href = BaseConstants.CLIENT_ROOT_URL;
       })
       .catch((error) => {
