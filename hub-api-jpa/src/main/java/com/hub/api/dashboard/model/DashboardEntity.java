@@ -1,5 +1,7 @@
 package com.hub.api.dashboard.model;
 
+import com.hub.api.security.model.User;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -10,15 +12,23 @@ public class DashboardEntity {
     @Column(name = "Id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Basic
     @Column(name = "Name")
     private String name;
+
     @Basic
     @Column(name = "Description")
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "UserId")
+    private User user;
+
     @Basic
     @Column(name = "CreatedAt")
     private Timestamp createdAt;
+
     @Basic
     @Column(name = "UpdatedAt")
     private Timestamp updatedAt;
@@ -87,5 +97,13 @@ public class DashboardEntity {
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         return result;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

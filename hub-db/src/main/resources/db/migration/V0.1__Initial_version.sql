@@ -11,30 +11,6 @@ CREATE UNIQUE INDEX Authority_Id_uindex ON authorities (Id);
 INSERT INTO authorities (Id, Name) VALUES (1, 'ROLE_USER');
 INSERT INTO authorities (Id, Name) VALUES (2, 'ROLE_ADMIN');
 
-CREATE TABLE dashboards
-(
-    Id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    Name VARCHAR(255) NOT NULL,
-    Description VARCHAR(255) NOT NULL,
-    CreatedAt DATETIME NOT NULL,
-    UpdatedAt DATETIME NOT NULL
-)
-COLLATE='latin1_general_ci'
-ENGINE=InnoDB
-;
-
-CREATE TABLE dashboard_widgets
-(
-    Id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    `Column` INT(11) NOT NULL,
-    Row INT(11) NOT NULL,
-    CreatedAt DATETIME NOT NULL,
-    UpdatedAt DATETIME NOT NULL
-)
-COLLATE='latin1_general_ci'
-ENGINE=InnoDB
-;
-
 CREATE TABLE users
 (
     Id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -49,6 +25,21 @@ COLLATE='latin1_general_ci'
 ENGINE=InnoDB
 ;
 CREATE UNIQUE INDEX User_Email_uindex ON users (Email);
+
+CREATE TABLE dashboards
+(
+    Id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    Name VARCHAR(255) NOT NULL,
+    Description VARCHAR(255) NOT NULL,
+    UserId INT(11) NOT NULL,
+	IsPublic BIT NOT NULL DEFAULT b'0',
+    CreatedAt DATETIME NOT NULL,
+    UpdatedAt DATETIME NOT NULL,
+    CONSTRAINT Dashboards_Users_fk FOREIGN KEY (UserId) REFERENCES users (Id)
+)
+COLLATE='latin1_general_ci'
+ENGINE=InnoDB
+;
 
 CREATE TABLE preferences
 (
