@@ -13,12 +13,8 @@ import routes from '../routes';
 const store = configureStore();
 
 const token = cookie.load(auth.constants.HUB_JWT_TOKEN_COOKIE_NAME);
-
-console.log(cookie);
-console.log('token = ', token)
 if (token) {
-  //TODO: user should be pulled from JWT token
-  store.dispatch(auth.actions.authUser(cookie.load('user')));
+  store.dispatch(auth.actions.authUserFromToken(token));
 }
 
 const history = syncHistoryWithStore(hashHistory, store);

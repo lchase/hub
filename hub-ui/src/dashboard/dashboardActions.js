@@ -1,32 +1,31 @@
-import axios from 'axios';
-import cookie from 'react-cookie';
-import * as BaseConstants from '../actions';
-import * as ActionTypes from './dashboardActionTypes';
+import { API_URL_ROOT, getData, postData } from './index';
+
+export const LOAD_DEFAULT_DASHBOARD_REQUEST = 'LOAD_DEFAULT_DASHBOARD_REQUEST';
+export const LOAD_DEFAULT_DASHBOARD_ERROR = 'LOAD_DEFAULT_DASHBOARD_ERROR';
+export const LOAD_DEFAULT_DASHBOARD_COMPLETE = 'LOAD_DEFAULT_DASHBOARD_COMPLETE';
+export const SHOW_CREATE_DASHBOARD_DIALOG = 'SHOW_CREATE_DASHBOARD_DIALOG';
+export const HIDE_CREATE_DASHBOARD_DIALOG = 'HIDE_CREATE_DASHBOARD_DIALOG';
+
+const DASHBOARD_ENDPOINT = "dashboard";
 
 export function loadDefaultDashboard(email) {
   return function(dispatch) {
-    console.log('loadDefaultDashboard(...)', email, `${BaseConstants.API_URL_ROOT}/dashboard`);
-    dispatch({ type: ActionTypes.LOAD_DEFAULT_DASHBOARD_REQUEST });
+    dispatch({ type: LOAD_DEFAULT_DASHBOARD_REQUEST });
 
-    /* email is the id */
-    axios.get(`${BaseConstants.API_URL_ROOT}/dashboard`, { email: email })
-      .then(response => {
-        dispatch({ type: ActionTypes.LOAD_DEFAULT_DASHBOARD_COMPLETE, payload: response.data });
-      })
-      .catch((error) => {
-        errorHandler(dispatch, error, ActionTypes.LOAD_DEFAULT_DASHBOARD_ERROR)
-      });
+    getData(LOAD_DEFAULT_DASHBOARD_COMPLETE, LOAD_DEFAULT_DASHBOARD_ERROR, true,
+      `${API_URL_ROOT}${DASHBOARD_ENDPOINT}?filter[dashboard][userEmail]=${email}&filter[dashboard][isDefault]=true`,
+      dispatch);
   }
 }
 
 export function showCreateDashboardDialog() {
   return {
-    type: ActionTypes.SHOW_CREATE_DASHBOARD_DIALOG
+    type: SHOW_CREATE_DASHBOARD_DIALOG
   }
 }
 
 export function hideCreateDashboardDialog() {
   return {
-    type: ActionTypes.HIDE_CREATE_DASHBOARD_DIALOG
+    type: HIDE_CREATE_DASHBOARD_DIALOG
   }
 }
