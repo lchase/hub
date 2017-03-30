@@ -2,6 +2,7 @@ package com.hub.api;
 
 import com.hub.api.config.JpaConfig;
 import com.hub.api.config.ModuleConfig;
+import io.katharsis.resource.registry.RegistryEntry;
 import io.katharsis.resource.registry.ResourceRegistry;
 import io.katharsis.spring.boot.v3.KatharsisConfigV3;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,9 @@ public class Application {
     @RequestMapping("/resourcesInfo")
     public Map<?, ?> getResources() {
         Map<String, String> result = new HashMap<>();
-        // Add all resources (i.e. Project and Task)
-        for (Class<?> clazz : resourceRegistry.getResources().keySet()) {
-            result.put(resourceRegistry.getResourceType(clazz), resourceRegistry.getResourceUrl(clazz));
+        for (RegistryEntry entry : resourceRegistry.getResources()) {
+            result.put(entry.getResourceInformation().getResourceType(),
+                    resourceRegistry.getResourceUrl(entry.getResourceInformation()));
         }
         return result;
     }

@@ -4,6 +4,7 @@ import com.hub.api.security.model.User;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Table(name = "dashboards", schema = "hub")
@@ -33,6 +34,9 @@ public class DashboardEntity {
     @Column(name = "UpdatedAt")
     private Timestamp updatedAt;
 
+    @OneToMany(mappedBy = "widget")
+    private List<DashboardWidgetEntity> widgets;
+
 
     public int getId() {
         return id;
@@ -49,14 +53,12 @@ public class DashboardEntity {
         this.name = name;
     }
 
-
     public String getDescription() {
         return description;
     }
     public void setDescription(String description) {
         this.description = description;
     }
-
 
     public Timestamp getCreatedAt() {
         return createdAt;
@@ -71,6 +73,22 @@ public class DashboardEntity {
     }
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<DashboardWidgetEntity> getWidgets() {
+        return widgets;
+    }
+
+    public void setWidgets(List<DashboardWidgetEntity> widgets) {
+        this.widgets = widgets;
     }
 
     @Override
@@ -97,13 +115,5 @@ public class DashboardEntity {
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         return result;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }
