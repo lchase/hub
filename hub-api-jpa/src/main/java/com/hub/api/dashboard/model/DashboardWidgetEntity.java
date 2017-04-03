@@ -12,11 +12,11 @@ public class DashboardWidgetEntity {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "DashboardId", referencedColumnName = "id")
+    @JoinColumn(name = "DashboardId")
     private DashboardEntity dashboard;
 
     @ManyToOne
-    @JoinColumn(name = "WidgetId", referencedColumnName = "id")
+    @JoinColumn(name = "WidgetId")
     private WidgetEntity widget;
 
     @Basic

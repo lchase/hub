@@ -30,7 +30,7 @@ public class WidgetEntity {
     @Column(name = "UpdatedAt")
     private Timestamp updatedAt;
 
-    @OneToMany(mappedBy = "dashboard")
+    @OneToMany(mappedBy = "widget")
     private List<DashboardWidgetEntity> dashboards;
 
     public int getId() {

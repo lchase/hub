@@ -22,6 +22,10 @@ public class DashboardEntity {
     @Column(name = "Description")
     private String description;
 
+//    @Basic
+//    @Column(name = "UserId")
+//    private Long userId;
+
     @ManyToOne
     @JoinColumn(name = "UserId")
     private User user;
@@ -34,9 +38,8 @@ public class DashboardEntity {
     @Column(name = "UpdatedAt")
     private Timestamp updatedAt;
 
-    @OneToMany(mappedBy = "widget")
+    @OneToMany(mappedBy = "dashboard")
     private List<DashboardWidgetEntity> widgets;
-
 
     public int getId() {
         return id;
@@ -44,7 +47,6 @@ public class DashboardEntity {
     public void setId(int id) {
         this.id = id;
     }
-
 
     public String getName() {
         return name;
@@ -67,13 +69,23 @@ public class DashboardEntity {
         this.createdAt = createdAt;
     }
 
-
     public Timestamp getUpdatedAt() {
         return updatedAt;
     }
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public Long getUserId() {
+        return getUser().getId();
+    }
+
+//    public Long getUserId() {
+//        return getUser().getId();
+//    }
+//    public void setUserId(Long userId) {
+//        this.userId = userId;
+//    }
 
     public User getUser() {
         return user;
