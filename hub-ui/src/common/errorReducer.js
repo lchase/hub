@@ -1,13 +1,12 @@
-import { GENERAL_ERROR } from '../actions/types';
-import objectAssign from 'object-assign';
+import common from '../common';
 
 const INIT_STATE = {
   errors: []
-}
+};
 
 export default function (state = INIT_STATE, action) {
   switch(action.type) {
-    case GENERAL_ERROR:
+    case common.actions.GENERAL_ERROR:
       return errors.push(action.payload);
   }
 

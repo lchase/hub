@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'; 
 import { Link } from 'react-router';
 import { Field, reduxForm } from 'redux-form';
-import FormInput from '../forms/FormInput';
+import FormInput from '../../components/forms/FormInput';
 import auth from '../../auth';
 
 const form = reduxForm({
@@ -42,7 +42,7 @@ function validate(values) {
   return errors;
 };
 
-class Register extends Component {
+export class Register extends Component {
 
   handleFormSubmit(values) {
     console.log('Register.handleFormSubmit(...)', values);

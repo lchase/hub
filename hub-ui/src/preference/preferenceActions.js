@@ -1,4 +1,5 @@
-import { errorHandler, API_URL_ROOT, getData, postData } from './index';
+//import { errorHandler, API_URL_ROOT, getData, postData } from '../actions/index';
+import common from '../common';
 import axios from 'axios';
 
 export const TOGGLE_SIDEBAR_REQUEST = 'TOGGLE_SIDEBAR_REQUEST';
@@ -15,8 +16,8 @@ export function loadPreferences(userId) {
   return function(dispatch) {
     dispatch({ type: LOAD_USER_PREFERENCES_REQUEST });
 
-    getData(LOAD_USER_PREFERENCES_COMPLETE, LOAD_USER_PREFERENCES_ERROR, true,
-      `${API_URL_ROOT}${PREFERENCE_ENDPOINT}/user/${userId}`, dispatch);
+    common.actions.getData(LOAD_USER_PREFERENCES_COMPLETE, LOAD_USER_PREFERENCES_ERROR, true,
+      `${common.actions.API_URL_ROOT}${PREFERENCE_ENDPOINT}/user/${userId}`, dispatch);
   }
 }
 
@@ -35,12 +36,12 @@ export function toggleSidebar(expanded, userId) {
       }
     };
     console.log(payload);
-    axios.post(`${API_URL_ROOT}${PREFERENCE_ENDPOINT}`, payload)
+    axios.post(`${common.actions.API_URL_ROOT}${PREFERENCE_ENDPOINT}`, payload)
     .then(response => {
       dispatch({ type: TOGGLE_SIDEBAR_COMPLETE, payload: response.data });
     })
     .catch((error) => {
-      errorHandler(dispatch, error, TOGGLE_SIDEBAR_ERROR)
+      common.actions.errorHandler(dispatch, error, TOGGLE_SIDEBAR_ERROR)
     });
   }
 }

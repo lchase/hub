@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import DevTools from '../containers/DevTools';
+import DevTools from './DevTools';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as PreferenceActions from '../actions/preference';
+import preference from '../preference';
 import _ from 'lodash';
 
 import enUS from 'antd/lib/locale-provider/en_US';
@@ -41,7 +41,7 @@ export class App extends Component {
     });
     console.log('App.isSidebarExpanded', sidebarPref);
     if (sidebarPref) {
-      console.log('isSidebarExpanded', sidebarPref.attributes.value)
+      console.log('isSidebarExpanded', sidebarPref.attributes.value);
       return sidebarPref.attributes.value === "1";
     } else {
       return true; // By default we should show the menu.
@@ -69,7 +69,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    loadPreferences: PreferenceActions.loadPreferences
+    loadPreferences: preference.actions.loadPreferences
   }, dispatch)
 }
 

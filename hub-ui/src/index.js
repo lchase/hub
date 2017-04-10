@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 
-import AdminLTETemplate from './components/index';
+import AdminLTETemplate from './app/index';
 
 require('../assets/style/main.less');
 

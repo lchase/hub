@@ -1,7 +1,6 @@
-import { LOAD_USER_PREFERENCES_COMPLETE } from '../actions/preference';
-import objectAssign from 'object-assign';
+import { LOAD_USER_PREFERENCES_COMPLETE } from './preferenceActions';
 
-const INIT_STATE = []
+const INIT_STATE = [];
 
 export default function (state = INIT_STATE, action) {
   switch(action.type) {

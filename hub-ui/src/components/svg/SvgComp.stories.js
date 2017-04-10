@@ -5,4 +5,4 @@ import SvgComp from './SvgComp';
 storiesOf('SvgComp', module)
   .add('Default', () => (
     <SvgComp />
-  ))
+  ));

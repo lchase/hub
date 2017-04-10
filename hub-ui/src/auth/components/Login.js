@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { Field, reduxForm } from 'redux-form';
-import FormInput from '../forms/FormInput';
+import FormInput from '../../components/forms/FormInput';
 import { bindActionCreators } from 'redux'
 
 import auth from '../../auth';
@@ -28,7 +28,7 @@ const form = reduxForm({
   validate: validate
 });
 
-class Login extends Component {
+export class Login extends Component {
   handleFormSubmit(values) {
     console.log('Login.handleFormSubmit(...)', values);
     console.log(this.props.login);

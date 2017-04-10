@@ -40,7 +40,7 @@ const PATHS = {
 };
 
 let HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-  template: __dirname + '/src/index.html',
+  template: __dirname + '/src/app/index.html',
   filename: 'index.html',
   inject: 'body'
 });

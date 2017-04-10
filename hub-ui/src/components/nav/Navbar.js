@@ -6,7 +6,7 @@ import NavbarUserMenu from './NavbarUserMenu';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as PreferenceActions from '../../actions/preference';
+import preference from '../../preference';
 import _ from 'lodash';
 
 export class Navbar extends Component {
@@ -63,7 +63,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    toggleSidebar: PreferenceActions.toggleSidebar
+    toggleSidebar: preference.actions.toggleSidebar
   }, dispatch)
 }
 

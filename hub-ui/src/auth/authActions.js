@@ -1,6 +1,7 @@
 import axios from 'axios';
 import cookie from 'react-cookie';
-import * as BaseConstants from '../actions';
+import common from '../common';
+//import * as BaseConstants from '../actions';
 import * as AuthConstants from './authConstants';
 import * as ActionTypes from './authActionTypes';
 
@@ -15,15 +16,15 @@ export function loginUser({ email, password, rememberMe }) {
   return function(dispatch) {
     //console.log('loginUser(...)', email, password, rememberMe, `${API_URL_ROOT}/auth/login`);
     dispatch({ type: ActionTypes.AUTH_AJAX_IN_PROGRESS });
-    axios.post(`${BaseConstants.LOGIN_URL}`, { email: email, password: password })
+    axios.post(`${common.actions.LOGIN_URL}`, { email: email, password: password })
       .then(response => {
         console.log('login user', response.data);
         cookie.save(AuthConstants.HUB_JWT_TOKEN_COOKIE_NAME, response.data.token, getCookieOptions(rememberMe));
         dispatch(authUserFromToken(response.data.token));
-        window.location.href = BaseConstants.CLIENT_ROOT_URL;
+        window.location.href = common.actions.CLIENT_ROOT_URL;
       })
       .catch((error) => {
-        BaseConstants.errorHandler(dispatch, error.response, ActionTypes.AUTH_ERROR);
+        common.actions.errorHandler(dispatch, error.response, ActionTypes.AUTH_ERROR);
       })
   }
 }
@@ -32,14 +33,14 @@ export function registerUser({ email, firstName, lastName, password }) {
   return function(dispatch) {
     //console.log('registerUser(...)', email, firstName, lastName, password, `${API_URL_ROOT}/auth/register`);
     dispatch({ type: ActionTypes.AUTH_AJAX_IN_PROGRESS });
-    axios.post(`${BaseConstants.REGISTRATION_URL}`, { email: email, firstName: firstName, lastName: lastName, password: password })
+    axios.post(`${common.actions.REGISTRATION_URL}`, { email: email, firstName: firstName, lastName: lastName, password: password })
       .then(response => {
         cookie.save(AuthConstants.HUB_JWT_TOKEN_COOKIE_NAME, response.data.token, getCookieOptions());
         dispatch({ type: ActionTypes.AUTH_USER });
-        window.location.href = BaseConstants.CLIENT_ROOT_URL;
+        window.location.href = common.actions.CLIENT_ROOT_URL;
       })
       .catch((error) => {
-        BaseConstants.errorHandler(dispatch, error, ActionTypes.GENERAL_ERROR)
+        common.actions.errorHandler(dispatch, error, common.actionTypes.GENERAL_ERROR)
       });
   }
 }
@@ -79,6 +80,6 @@ export function logoutUser() {
   return function (dispatch) {
     dispatch({ type: ActionTypes.UNAUTH_USER });
     cookie.remove(AuthConstants.HUB_JWT_TOKEN_COOKIE_NAME, { path: '/' });
-    window.location.href = BaseConstants.LOGIN_URL;
+    window.location.href = common.actions.LOGIN_URL;
   }
 }

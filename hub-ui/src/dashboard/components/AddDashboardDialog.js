@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Modal from '../modal/Modal';
+import Modal from '../../components/modal/Modal';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { showCreateDashboardDialog, hideCreateDashboardDialog } from '../../dashboard';
 import { Field, reduxForm } from 'redux-form';
-import FormInput from '../forms/FormInput';
+import FormInput from '../../components/forms/FormInput';
 
 const validate = values => {
   const errors = {};

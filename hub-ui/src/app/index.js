@@ -6,9 +6,9 @@ import { UserAuthWrapper } from 'redux-auth-wrapper'
 import cookie from 'react-cookie';
 import auth from '../auth';
 
-import configureStore from '../store/configureStore';
+import configureStore from './configureStore';
 
-import routes from '../routes';
+import routes from './routes';
 
 const store = configureStore();
 

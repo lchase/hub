@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Dashboard from './Dashboard';
-import db from '../dashboard';
+import * as actions from '../dashboardActions';
 
 export class DashboardContainer extends Component {
   componentWillMount() {
     console.log('DashboardContainer.componentWillMount', this.props);
-    //this.props.getDefaultDashboard(this.props.auth.user.email);
+    this.props.getDefaultDashboard(this.props.auth.user.id);
+    //this.props.getDefaultDashboard();
   }
 
   render() {
@@ -26,7 +27,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    getDefaultDashboard: db.actions.loadDefaultDashboard
+    getDefaultDashboard: actions.loadDefaultDashboard
   }, dispatch)
 }
 

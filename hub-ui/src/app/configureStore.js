@@ -1,10 +1,10 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import rootReducer from '../reducers';
-import DevTools from '../containers/DevTools';
+import rootReducer from './rootReducer';
+import DevTools from './DevTools';
 import reduxThunk from 'redux-thunk';
 
 import { createEpicMiddleware } from 'redux-observable';
-import { rootEpic } from '../rootEpic';
+import { rootEpic } from './rootEpic';
 
 const epicMiddleware = createEpicMiddleware(rootEpic);
 
@@ -21,11 +21,14 @@ export default function configureStore(initialState) {
   const store = createStore(rootReducer, initialState, enhancer);
 
   // Hot reload reducers (requires Webpack or Browserify HMR to be enabled)
-  if (module.hot) {
-    module.hot.accept('../reducers', () =>
-      store.replaceReducer(require('../reducers')/*.default if you use Babel 6+ */)
-    );
-  }
+  //FIXME: reducers are now located in modules separated by domain.  Need a way to locate all reducers (or maybe
+  //we can just reference the rootReducer?
+
+  // if (module.hot) {
+  //   module.hot.accept('../reducers', () =>
+  //     store.replaceReducer(require('../reducers')/*.default if you use Babel 6+ */)
+  //   );
+  // }
 
   return store;
 }

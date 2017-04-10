@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import ChatWidget from './chat/ChatWidget';
-import AddDashboardDialog from './dashboard/AddDashboardDialog';
+import ChatWidget from '../../components/chat/ChatWidget';
+import AddDashboardDialog from './AddDashboardDialog';
 import { DatePicker, Progress, Card } from 'antd';
-import PingWidget from '../ping/components/pingWidget';
+import PingWidget from '../../ping/components/pingWidget';
 import { connect } from 'react-redux';
 
 

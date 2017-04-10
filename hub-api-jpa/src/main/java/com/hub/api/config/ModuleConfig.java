@@ -2,11 +2,12 @@ package com.hub.api.config;
 
 import com.hub.api.dashboard.model.DashboardEntity;
 import com.hub.api.dashboard.model.DashboardWidgetEntity;
+import com.hub.api.dashboard.model.WidgetEntity;
 import com.hub.api.dto.UserDto;
 import com.hub.api.model.PreferenceEntity;
 import com.hub.api.organization.model.OrganizationUnitEntity;
+import com.hub.api.security.model.Authority;
 import com.hub.api.security.model.User;
-import com.hub.api.dashboard.model.WidgetEntity;
 import com.hub.api.workflow.model.Workflow;
 import com.hub.api.workflow.model.WorkflowRun;
 import com.hub.api.workflow.model.WorkflowStep;
@@ -55,6 +56,7 @@ public class ModuleConfig {
         // directly expose entity
         // TODO: do this automatically for all entities
         module.addRepository(JpaRepositoryConfig.builder(User.class).build());
+        module.addRepository(JpaRepositoryConfig.builder(Authority.class).build());
         module.addRepository(JpaRepositoryConfig.builder(PreferenceEntity.class).build());
         module.addRepository(JpaRepositoryConfig.builder(OrganizationUnitEntity.class).build());
         module.addRepository(JpaRepositoryConfig.builder(Workflow.class).build());
