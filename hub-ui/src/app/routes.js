@@ -24,8 +24,8 @@ const UserIsAuthenticated = UserAuthWrapper({
 
 export default (
   <Route path="/" component={App}>
-    <Route component={Content}>
-      <IndexRoute component={UserIsAuthenticated(DashboardContainer)} />
+    <Route component={UserIsAuthenticated(Content)}>
+      <IndexRoute component={DashboardContainer} />
       <Route path="profile" component={Profile} />
       <Route path="other" component={Other} />
     </Route>
