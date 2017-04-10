@@ -16,3 +16,14 @@ is running before you do this, otherwise it won't work.
 
 # Misc
 * ctrl-h toggles on/off dock monitor on the right.
+
+# Project Structure
+* app - The "shell" module containing the top level component, root reducer, etc.  NOTE: no other modules should have a
+dependency on this module!
+* auth - Functionality related to authentication/authorization and users
+* common - Module containing functionality common to all modules (API invocation actions, general error handling, etc.)
+NOTE: This module should not depend on any other modules in this project!
+* components - TODO: needs to be cleaned up and components moved to their own modules
+* dashboard - Functionality related to dashboards
+* ping - an example component to test/demo redux-observable
+* preference - Functionality related to user preferences
