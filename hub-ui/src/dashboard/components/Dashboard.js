@@ -26,11 +26,20 @@ export class Dashboard extends Component {
       {i: 'c', x: 4, y: 1, w: 4, h: 4}
     ];
     console.log('Dashboard.render() state', this.state);
-    return (
-      <div>
-        Dashboard Page...
-      </div>
-    )
+    // return (
+    //   <div>
+    //     Dashboard Page...
+    //   </div>
+    // )
+    let testComponent = this.props.component.slug;
+    console.log('testComponent: ');
+    console.log(testComponent);
+    // return <this.props.component.slug className='text'>
+    //   {this.props.component.value}
+    // </this.props.component.slug>;
+    return <testComponent className='text'>
+      {this.props.component.value}
+    </testComponent>;
   }
 }
 

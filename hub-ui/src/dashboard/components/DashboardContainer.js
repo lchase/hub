@@ -4,16 +4,17 @@ import { bindActionCreators } from 'redux';
 import Dashboard from './Dashboard';
 import * as actions from '../dashboardActions';
 
+import PlaceholderWidget from '../../widgets/placeholder/components/PlaceholderWidget';
+
 export class DashboardContainer extends Component {
   componentWillMount() {
     console.log('DashboardContainer.componentWillMount', this.props);
     this.props.getDefaultDashboard(this.props.auth.user.id);
-    //this.props.getDefaultDashboard();
   }
 
   render() {
     return (
-      <Dashboard config={this.props.defaultDashboard} />
+      <Dashboard component={{slug:PlaceholderWidget, value:'This is my header'}}/>
     )
   }
 }

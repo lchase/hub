@@ -3,7 +3,7 @@ import axios from 'axios';
 import cookie from 'react-cookie';
 
 //TODO: remove this to configuration
-export const SERVER_URL_ROOT = 'http://localhost:8080/';
+export const SERVER_URL_ROOT = 'http://localhost:8090/';
 export const API_URL_ROOT = SERVER_URL_ROOT + 'api/';
 export const CLIENT_ROOT_URL = 'http://localhost:4001/';
 export const LOGIN_URL = SERVER_URL_ROOT + 'auth/login/';
@@ -57,7 +57,6 @@ export function postData(action, errorType, isAuthReq, url, dispatch, data) {
   });
 }
 
-// Get Request
 export function getData(action, errorType, isAuthReq, url, dispatch) {
   //const requestUrl = API_URL_ROOT + url;
   let headers = {};

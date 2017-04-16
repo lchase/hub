@@ -4,6 +4,8 @@ import objectAssign from 'object-assign';
 import normalize from 'json-api-normalizer';
 
 const INIT_STATE = {
+  //A map of all dashboards belonging to the user
+  dashboards: {},
   showCreateDashboardDialog: false
 };
 
@@ -23,7 +25,7 @@ export default function (state = INIT_STATE, action) {
       console.log('normalized payload: ');
       let normalized = normalize(action.payload);
       console.log(normalized);
-      return objectAssign({}, state, { showCreateDashboardDialog: false });
+      return objectAssign({}, state, { dashboards: normalized.dashboard });
     case LOAD_DEFAULT_DASHBOARD_ERROR:
       //TODO: error handling for dashboard API?
       return state;
