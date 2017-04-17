@@ -38,27 +38,25 @@ export function errorHandler(dispatch, error, type) {
 }
 
 export function postData(action, errorType, isAuthReq, url, dispatch, data) {
-  const requestUrl = API_URL_ROOT + url;
   let headers = {};
 
   if (isAuthReq) {
     headers = { headers: { 'Authorization': cookie.load(auth.constants.HUB_JWT_TOKEN_COOKIE_NAME) } };
   }
 
-  axios.post(requestUrl, data, headers)
-  .then((response) => {
-    dispatch({
-      type: action,
-      payload: response.data
+  axios.post(url, data, headers)
+    .catch((error) => {
+      errorHandler(dispatch, error.response, errorType)
+    })
+    .then((response) => {
+      dispatch({
+        type: action,
+        payload: response.data
+      });
     });
-  })
-  .catch((error) => {
-    errorHandler(dispatch, error.response, errorType)
-  });
 }
 
 export function getData(action, errorType, isAuthReq, url, dispatch) {
-  //const requestUrl = API_URL_ROOT + url;
   let headers = {};
 
   if (isAuthReq) {
@@ -66,46 +64,38 @@ export function getData(action, errorType, isAuthReq, url, dispatch) {
   }
 
   axios.get(url, headers)
-  .then((response) => {
-    dispatch({
-      type: action,
-      payload: response.data
+    .catch((error) => {
+      errorHandler(dispatch, error.response, errorType)
+    })
+    .then((response) => {
+      dispatch({
+        type: action,
+        payload: response.data
+      });
     });
-  })
-  .catch((error) => {
-    errorHandler(dispatch, error.response, errorType)
-  });
 }
 
-// Put Request
-export function putData(action, errorType, isAuthReq, url, dispatch, data) {
-  const requestUrl = API_URL_ROOT + url;
-  let headers = {};
+// Patch Request
+export function patchData(action, errorType, url, dispatch, data) {
+  let headers = { headers: { 'Authorization': cookie.load(auth.constants.HUB_JWT_TOKEN_COOKIE_NAME) } };
 
-  if (isAuthReq) {
-    headers = {headers: { 'Authorization': cookie.load(auth.constants.HUB_JWT_TOKEN_COOKIE_NAME) }};
-  }
-
-  axios.put(requestUrl, data, headers)
-  .then((response) => {
-    dispatch({
-      type: action,
-      payload: response.data
-    });
-  })
-  .catch((error) => {
-    errorHandler(dispatch, error.response, errorType)
-  });
+  axios.patch(url, data, headers)
+    .catch((error) => {
+      errorHandler(dispatch, error.response, errorType)
+    })
+    .then((response) => {
+      dispatch({
+        type: action,
+        payload: response.data
+      });
+    })
 }
 
 // Delete Request
-export function deleteData(action, errorType, isAuthReq, url, dispatch) {
+export function deleteData(action, errorType, url, dispatch) {
   const requestUrl = API_URL_ROOT + url;
-  let headers = {};
 
-  if(isAuthReq) {
-    headers = {headers: { 'Authorization': cookie.load(auth.constants.HUB_JWT_TOKEN_COOKIE_NAME) }};
-  }
+  let headers = {headers: { 'Authorization': cookie.load(auth.constants.HUB_JWT_TOKEN_COOKIE_NAME) }};
 
   axios.delete(requestUrl, headers)
   .then((response) => {

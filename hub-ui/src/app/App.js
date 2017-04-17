@@ -21,6 +21,7 @@ export class App extends Component {
   }
 
   componentDidUpdate() {
+    console.log('App.componentDidUpdate called');
     if (this.isSidebarExpanded()) {
       document.body.classList.remove('sidebar-collapse');
     } else {
@@ -33,19 +34,7 @@ export class App extends Component {
   }
 
   isSidebarExpanded() {
-    console.log('App.isSidebarExpanded', this.props);
-    console.log('App.isSidebarExpanded', this.props.preference);
-    let sidebarPref = _.find(this.props.preference, entry => {
-      console.log('App.isSidebarExpanded', entry.attributes.name);
-      return entry.attributes.name === 'sidebar-expanded'
-    });
-    console.log('App.isSidebarExpanded', sidebarPref);
-    if (sidebarPref) {
-      console.log('isSidebarExpanded', sidebarPref.attributes.value);
-      return sidebarPref.attributes.value === "1";
-    } else {
-      return true; // By default we should show the menu.
-    }
+    return this.props.preference['sidebarExpanded'];
   }  
   
   render() {

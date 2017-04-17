@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 import Dashboard from './Dashboard';
 import * as actions from '../dashboardActions';
 
+import preference from '../../preference';
+
 import PlaceholderWidget from '../../widgets/placeholder/components/PlaceholderWidget';
 
 export class DashboardContainer extends Component {
@@ -13,16 +15,24 @@ export class DashboardContainer extends Component {
   }
 
   render() {
-    return (
-      <Dashboard component={{slug:PlaceholderWidget, value:'This is my header'}}/>
-    )
+    //TODO: figure out a way to prevent rendering of the DashboardContainer before data like user prefs has been loaded
+    if (this.props.preference[preference.keys.sidebarExpanded] === undefined) {
+      return (
+        <div>LOADING</div>
+      )
+    } else {
+      return (
+        <Dashboard component={{slug: PlaceholderWidget, value: 'This is my header'}}/>
+      )
+    }
   }
 }
 
 function mapStateToProps(state) {
   return {
     auth: state.auth,
-    defaultDashboard: state.dashboard
+    preference: state.preference,
+    dashboard: state.dashboard
   }
 }
 

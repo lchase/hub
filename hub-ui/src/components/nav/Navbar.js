@@ -7,7 +7,6 @@ import NavbarUserMenu from './NavbarUserMenu';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import preference from '../../preference';
-import _ from 'lodash';
 
 export class Navbar extends Component {
   constructor() {
@@ -17,16 +16,22 @@ export class Navbar extends Component {
   }
 
   handleSidebarToggle() {
-    // this.props.toggleSidebar(!this.isSidebarExpanded(), this.props.auth.user.id);
-    this.props.toggleSidebar(!this.isSidebarExpanded());
+    console.log('handle sidebar toggle CLICKED');
+    this.props.toggleSidebar(this.props.preference, !this.isSidebarExpanded(), this.props.auth.user.id);
   }
   
   isSidebarExpanded() {
-    let sidebarPref = _.find(this.props.preference, entry => entry.attributes.name === 'sidebar-expanded');
-    if (sidebarPref) {
-      return sidebarPref.attributes.value === "1";
+    if (this.props.preference[preference.keys.sidebarExpanded] === undefined) {
+      console.log('NAVBAR PREFERENCE PROPS UNDEFINED!');
     } else {
-      return true; // By default we should show the menu.
+      console.log('NAVBAR.isSidebarExpanded value:');
+      console.log(this.props.preference[preference.keys.sidebarExpanded].value);
+      console.log(this.props.preference[preference.keys.sidebarExpanded].value == 'true');
+      if (this.props.preference[preference.keys.sidebarExpanded]) {
+        return this.props.preference[preference.keys.sidebarExpanded].value == 'true';
+      } else {
+        return false;
+      }
     }
   }
 
@@ -34,13 +39,13 @@ export class Navbar extends Component {
     console.log('Navbar.render, isSidebarExpanded()', this.isSidebarExpanded());
     
     return (
-        <nav className="navbar navbar-static-top" role="navigation">    
+        <nav className="navbar navbar-static-top" role="navigation">
           <a onClick={this.handleSidebarToggle.bind(this)} href="#" className="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span className="sr-only">Toggle navigation</span>
           </a>
           <div className="navbar-custom-menu">
             <ul className="nav navbar-nav">
-              <NavbarMessages />              
+              <NavbarMessages />
               <NavbarNotifications />
               <NavbarTasks />
               <NavbarUserMenu />

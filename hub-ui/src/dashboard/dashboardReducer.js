@@ -6,11 +6,11 @@ import normalize from 'json-api-normalizer';
 const INIT_STATE = {
   //A map of all dashboards belonging to the user
   dashboards: {},
+  dashboardWidgets: {},
   showCreateDashboardDialog: false
 };
 
 export default function (state = INIT_STATE, action) {
-  console.log('dashboard_reducer', action.type);
   switch(action.type) {
     case SHOW_CREATE_DASHBOARD_DIALOG:
       return objectAssign({}, state, { showCreateDashboardDialog: true });
@@ -25,7 +25,11 @@ export default function (state = INIT_STATE, action) {
       console.log('normalized payload: ');
       let normalized = normalize(action.payload);
       console.log(normalized);
-      return objectAssign({}, state, { dashboards: normalized.dashboard });
+      return objectAssign({}, state,
+        {
+          dashboards: normalized.dashboard,
+          dashboardWidgets: normalized.dashboardWidget
+        });
     case LOAD_DEFAULT_DASHBOARD_ERROR:
       //TODO: error handling for dashboard API?
       return state;

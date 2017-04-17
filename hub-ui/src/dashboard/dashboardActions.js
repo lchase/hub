@@ -13,11 +13,8 @@ export function loadDefaultDashboard(email) {
   return function(dispatch) {
     dispatch({ type: LOAD_DEFAULT_DASHBOARD_REQUEST });
 
-    // getData(LOAD_DEFAULT_DASHBOARD_COMPLETE, LOAD_DEFAULT_DASHBOARD_ERROR, true,
-    //   `${API_URL_ROOT}${DASHBOARD_ENDPOINT}?filter[dashboard][userEmail]=${email}&filter[dashboard][isDefault]=true`,
-    //   dispatch);
     common.actions.getData(LOAD_DEFAULT_DASHBOARD_COMPLETE, LOAD_DEFAULT_DASHBOARD_ERROR, true,
-      `${common.actions.API_URL_ROOT}${DASHBOARD_ENDPOINT}?include[dashboard]=user`, dispatch);
+      `${common.actions.API_URL_ROOT}${DASHBOARD_ENDPOINT}?include[dashboard]=user&include[dashboard]=widgets`, dispatch);
   }
 }
 

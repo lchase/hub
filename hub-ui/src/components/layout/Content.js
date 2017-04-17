@@ -8,13 +8,11 @@ import $ from 'jquery';
 export default class Content extends Component {
   
   componentDidMount() {
-    console.log('mounted');
     $(document.body).addClass('hold-transition skin-blue sidebar-mini');
     // class="hold-transition skin-blue sidebar-mini"
   }
 
   componentWillUnmount() {
-    console.log('unmounting');
     $(document.body).removeClass('hold-transition skin-blue sidebar-mini');
   }
 
@@ -37,7 +35,7 @@ export default class Content extends Component {
         
           <section className="content">
             {this.props.children}
-          </section>      
+          </section>
         </div>
         <PageFooter />
         <Rightbar />

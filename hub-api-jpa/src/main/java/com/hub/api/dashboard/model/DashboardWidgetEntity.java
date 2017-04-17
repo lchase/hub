@@ -15,9 +15,9 @@ public class DashboardWidgetEntity {
     @JoinColumn(name = "DashboardId")
     private DashboardEntity dashboard;
 
-    @ManyToOne
-    @JoinColumn(name = "WidgetId")
-    private WidgetEntity widget;
+    @Basic
+    @Column(name = "WidgetType")
+    private String widgetType;
 
     @Basic
     @Column(name = "Row")
@@ -51,14 +51,6 @@ public class DashboardWidgetEntity {
         this.dashboard = dashboard;
     }
 
-    public WidgetEntity getWidget() {
-        return widget;
-    }
-
-    public void setWidget(WidgetEntity widget) {
-        this.widget = widget;
-    }
-
     public Integer getRow() {
         return row;
     }
@@ -73,6 +65,14 @@ public class DashboardWidgetEntity {
 
     public void setColumn(Integer column) {
         this.column = column;
+    }
+
+    public String getWidgetType() {
+        return widgetType;
+    }
+
+    public void setWidgetType(String widgetType) {
+        this.widgetType = widgetType;
     }
 
     public Timestamp getCreatedAt() {
@@ -100,10 +100,10 @@ public class DashboardWidgetEntity {
 
         if (id != that.id) return false;
         if (!dashboard.equals(that.dashboard)) return false;
-        if (!widget.equals(that.widget)) return false;
         if (!row.equals(that.row)) return false;
         if (!column.equals(that.column)) return false;
         if (!createdAt.equals(that.createdAt)) return false;
+        if (!widgetType.equals(that.widgetType)) return false;
         return updatedAt != null ? updatedAt.equals(that.updatedAt) : that.updatedAt == null;
     }
 
@@ -111,10 +111,10 @@ public class DashboardWidgetEntity {
     public int hashCode() {
         int result = id;
         result = 31 * result + dashboard.hashCode();
-        result = 31 * result + widget.hashCode();
         result = 31 * result + row.hashCode();
         result = 31 * result + column.hashCode();
         result = 31 * result + createdAt.hashCode();
+        result = 31 * result + widgetType.hashCode();
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         return result;
     }

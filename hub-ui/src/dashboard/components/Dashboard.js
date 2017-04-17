@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 
 let ReactGridLayout = require('react-grid-layout');
 
-export class Dashboard extends Component {
+export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     console.log('Dashboard.constructor', props);
@@ -25,15 +25,9 @@ export class Dashboard extends Component {
       {i: 'b', x: 4, y: 0, w: 4, h: 4, minW: 2, maxW: 4},
       {i: 'c', x: 4, y: 1, w: 4, h: 4}
     ];
-    console.log('Dashboard.render() state', this.state);
-    // return (
-    //   <div>
-    //     Dashboard Page...
-    //   </div>
-    // )
     let testComponent = this.props.component.slug;
-    console.log('testComponent: ');
-    console.log(testComponent);
+    // console.log('testComponent: ');
+    // console.log(testComponent);
     // return <this.props.component.slug className='text'>
     //   {this.props.component.value}
     // </this.props.component.slug>;
@@ -42,14 +36,6 @@ export class Dashboard extends Component {
     </testComponent>;
   }
 }
-
-function mapStateToProps(state) {
-  return {
-    dbg: state
-  }
-}
-
-export default connect(mapStateToProps)(Dashboard);
 
 /*
 
