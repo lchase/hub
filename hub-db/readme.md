@@ -21,3 +21,13 @@
 gradle flywayMigrate -i
 ```
 
+## Containers in Linux environment
+* To run with Docker containers on your dev env, start the container with following:
+```Shell
+ docker run --name hub_mariadb -p 3306:3306 -e MYSQL_ROOT_PASSWORD="blue" -e MYSQL_DATABASE="hub" -d mariadb:latest 
+```
+* then replace localhost in grade.properties file to 0.0.0.0. can do that from CLI quickly with sed:
+```Shell
+ sed -i 's/localhost/0\.0\.0\.0/g' gradle.properties
+```
+* then run the migrations gradle command as described above
