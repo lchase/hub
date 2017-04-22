@@ -66,5 +66,9 @@
     "redux-observable": "^0.12.2",
     "redux-thunk": "^2.1.0",
     "rxjs": "^5.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:lchase/hub.git"
   }
 }
