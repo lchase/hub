@@ -13,3 +13,6 @@ Follow the README instructions in each subfolder at the following order of execu
 * Under hub-ui run: npm install && npm start - to spin up the web site
 and you're ready to go in development environment.
 Navigate to http://localhost:4001 and log in with a@a.com / c
+
+# See Also
+* For a .NET collector example (work in progress) https://github.com/lchase/hub-collector-qualitycenter
