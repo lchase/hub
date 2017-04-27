@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+             xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+             xs:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             xmlns="http://java.sun.com/xml/ns/persistence">
+
+    <persistence-unit name="hubPersistenceUnit" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <properties>
+            <property name="hibernate.format_sql" value="false" />
+            <property name="hibernate.validator.autoregister_listeners"
+                      value="true" />
+        </properties>
+    </persistence-unit>
+</persistence>
+<!--<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">-->
+
+    <!--<persistence-unit name="hubPersistenceUnit">-->
+        <!--<class>com.example.model.DashboardEntity</class>-->
+        <!--<class>com.example.model.PreferenceEntity</class>-->
+        <!--<class>com.example.model.UserEntity</class>-->
+        <!--<class>com.example.model.WidgetEntity</class>-->
+        <!--<class>com.example.model.DashboardWidgetEntity</class>-->
+        <!--<properties>-->
+            <!--<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/hub"/>-->
+            <!--<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>-->
+        <!--</properties>-->
+    <!--</persistence-unit>-->
+<!--</persistence>-->
