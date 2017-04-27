@@ -7,7 +7,7 @@
 * Database configuration is currently hardcoded: MySQL:3306, database: "hub", root/blue.  You may need to apply the
 SQL script under src/main/resources/security_tables.sql, this will create "User", "Authority" and "UserAuthority" tables
 * To generate JWT token: POST to http://localhost:8080/auth with a body content like {"email":"user","password":"password"}
-* Default users: admin/admin, user/password
+* Default users: a@a.com/c, u@u.com/c
 * Include JWT token in "Authorization" header in all subsequent requests
 * Some API endpoints
     * /resourcesInfo - returns list of all registered JSON-API endpoints on the server

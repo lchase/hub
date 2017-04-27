@@ -11,6 +11,7 @@ import com.hub.api.workflow.model.Workflow;
 import com.hub.api.workflow.model.WorkflowRun;
 import com.hub.api.workflow.model.WorkflowStep;
 import com.hub.api.workflow.model.WorkflowStepRun;
+import com.hub.api.workitem.model.WorkItem;
 import io.katharsis.core.internal.boot.TransactionRunner;
 import io.katharsis.jpa.JpaModule;
 import io.katharsis.jpa.JpaRepositoryConfig;
@@ -63,6 +64,7 @@ public class ModuleConfig {
         module.addRepository(JpaRepositoryConfig.builder(WorkflowStep.class).build());
         module.addRepository(JpaRepositoryConfig.builder(WorkflowStepRun.class).build());
         module.addRepository(JpaRepositoryConfig.builder(DashboardEntity.class).build());
+        module.addRepository(JpaRepositoryConfig.builder(WorkItem.class).build());
 
         module.addRepository(JpaRepositoryConfig.builder(DashboardWidgetEntity.class).build());
 
