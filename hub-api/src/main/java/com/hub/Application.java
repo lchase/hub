@@ -2,6 +2,7 @@ package com.hub;
 
 import com.hub.api.config.JpaConfig;
 import com.hub.api.config.ModuleConfig;
+import com.hub.collector.qualitycenter.QualityCenterDefectFetcher;
 import io.katharsis.resource.registry.RegistryEntry;
 import io.katharsis.resource.registry.ResourceRegistry;
 import io.katharsis.spring.boot.v3.KatharsisConfigV3;
@@ -21,11 +22,14 @@ import java.util.Map;
 @RestController
 @SpringBootApplication
 @EnableScheduling
-@Import({ KatharsisConfigV3.class, JpaConfig.class, ModuleConfig.class })
+@Import({KatharsisConfigV3.class, JpaConfig.class, ModuleConfig.class})
 public class Application {
 
     @Autowired
     private ResourceRegistry resourceRegistry;
+
+    @Autowired
+    private QualityCenterDefectFetcher fetcher;
 
     @RequestMapping("/resourcesInfo")
     public Map<?, ?> getResources() {
@@ -35,6 +39,12 @@ public class Application {
                     resourceRegistry.getResourceUrl(entry.getResourceInformation()));
         }
         return result;
+    }
+
+    //TODO: create an "operations" API and move this there
+    @RequestMapping("/fetchQcDefects")
+    public void fetchQualityCenterDefects() {
+        fetcher.fetchDefectsFromQualityCenter();
     }
 
     public static void main(String[] args) throws Throwable {
