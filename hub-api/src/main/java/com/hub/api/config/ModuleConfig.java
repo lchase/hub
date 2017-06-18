@@ -5,6 +5,7 @@ import com.hub.api.dashboard.model.DashboardWidgetEntity;
 import com.hub.api.dto.UserDto;
 import com.hub.api.model.PreferenceEntity;
 import com.hub.api.organization.model.OrganizationUnitEntity;
+import com.hub.api.qualitycenter.model.QualityCenterDefect;
 import com.hub.api.security.model.Authority;
 import com.hub.api.security.model.User;
 import com.hub.api.workflow.model.Workflow;
@@ -55,18 +56,18 @@ public class ModuleConfig {
 
         // directly expose entity
         // TODO: do this automatically for all entities
-        module.addRepository(JpaRepositoryConfig.builder(User.class).build());
         module.addRepository(JpaRepositoryConfig.builder(Authority.class).build());
+        module.addRepository(JpaRepositoryConfig.builder(DashboardEntity.class).build());
+        module.addRepository(JpaRepositoryConfig.builder(DashboardWidgetEntity.class).build());
         module.addRepository(JpaRepositoryConfig.builder(PreferenceEntity.class).build());
         module.addRepository(JpaRepositoryConfig.builder(OrganizationUnitEntity.class).build());
+        module.addRepository(JpaRepositoryConfig.builder(QualityCenterDefect.class).build());
+        module.addRepository(JpaRepositoryConfig.builder(User.class).build());
         module.addRepository(JpaRepositoryConfig.builder(Workflow.class).build());
         module.addRepository(JpaRepositoryConfig.builder(WorkflowRun.class).build());
         module.addRepository(JpaRepositoryConfig.builder(WorkflowStep.class).build());
         module.addRepository(JpaRepositoryConfig.builder(WorkflowStepRun.class).build());
-        module.addRepository(JpaRepositoryConfig.builder(DashboardEntity.class).build());
         module.addRepository(JpaRepositoryConfig.builder(WorkItem.class).build());
-
-        module.addRepository(JpaRepositoryConfig.builder(DashboardWidgetEntity.class).build());
 
         // additionally expose entity as a mapped dto
         module.addRepository(JpaRepositoryConfig.builder(User.class, UserDto.class, new UserMapper()).build());

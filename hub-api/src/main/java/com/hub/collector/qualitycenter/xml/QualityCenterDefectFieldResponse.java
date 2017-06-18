@@ -1,18 +1,13 @@
 package com.hub.collector.qualitycenter.xml;
 
-import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
+import org.simpleframework.xml.Text;
 
-@Element
+@Root
 public class QualityCenterDefectFieldResponse {
     public QualityCenterDefectFieldResponse() {
     }
 
-    @Attribute(name = "Name")
-    public String name;
-
-    @Element(name = "Value", required = false)
+    @Text
     public String value;
 }

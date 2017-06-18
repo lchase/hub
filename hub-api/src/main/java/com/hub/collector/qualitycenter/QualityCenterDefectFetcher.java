@@ -2,15 +2,19 @@ package com.hub.collector.qualitycenter;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
+import com.hub.api.qualitycenter.model.QualityCenterDefect;
+import com.hub.api.qualitycenter.repository.QualityCenterDefectRepository;
 import com.hub.collector.qualitycenter.xml.QualityCenterDefectsResponse;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StopWatch;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -22,8 +26,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Base64;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @PropertySource("classpath:quality_center.properties")
 @Component
@@ -31,8 +37,14 @@ public class QualityCenterDefectFetcher {
 
     private static final Logger log = LoggerFactory.getLogger(QualityCenterDefectFetcher.class);
 
-    private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
     private static final DateTimeFormatter queryDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    private final QualityCenterDefectRepository repository;
+
+    @Autowired
+    public QualityCenterDefectFetcher(QualityCenterDefectRepository repository) {
+        this.repository = repository;
+    }
 
     @Value("${quality_center.base_url}")
     private String BASE_URL;
@@ -72,7 +84,24 @@ public class QualityCenterDefectFetcher {
             Response<ResponseBody> loginResponse = loginCall.execute();
             String authCookie = loginResponse.headers().get("Set-Cookie");
 
+            StopWatch sw = new StopWatch();
+            sw.start();
+
+            log.info("Fetching all defects from Quality Center");
             QualityCenterDefectsResponse allDefects = getAllDefects(qcEndpoint, authCookie);
+            sw.stop();
+            log.info("Fetching all defects from Quality Center completed. Time: " + sw.getLastTaskTimeMillis());
+            sw.start();
+            log.info("Converting defects to entities");
+            List<QualityCenterDefect> defectEntities = convertResponseToDefectEntities(allDefects);
+            sw.stop();
+            log.info("Converting defects to entities completed. Time: " + sw.getLastTaskTimeMillis());
+            sw.start();
+            log.info("Persisting QC entities");
+            repository.save(defectEntities);
+            sw.stop();
+            log.info("Persisting QC entities completed. Time: " + sw.getLastTaskTimeMillis());
+
 
 //            Call<QualityCenterDefectResponse> defectCall = qcEndpoint.getDefectById(authCookie, DOMAIN, PROJECT, 195970);
 //            Response<QualityCenterDefectResponse> defectResponse = defectCall.execute();
@@ -85,7 +114,7 @@ public class QualityCenterDefectFetcher {
 //                    qcEndpoint.getDefectsByQuery(authCookie, DOMAIN, PROJECT, getWfmQuery());
 //            Response<ResponseBody> defectsResponse = defectsCall.execute();
 
-            log.info("QualityCenterDefectFetcher: execution ended at time {}", dateFormat.format(Instant.now()));
+            log.info("QualityCenterDefectFetcher: execution ended at time {}", Instant.now().toString());
         } catch (Exception e) {
             log.error("QualityCenterDefectFetcher encountered an error: ", e);
         }
@@ -135,9 +164,14 @@ public class QualityCenterDefectFetcher {
 
     private QualityCenterDefectsResponse getAllDefects(QualityCenterEndpointInterface qcEndpoint, String authCookie) throws IOException {
         Call<QualityCenterDefectsResponse> defectsCall =
-                qcEndpoint.getDefectsByQuery(authCookie, DOMAIN, PROJECT, String.valueOf(500), null);
+                qcEndpoint.getDefectsByQuery(authCookie, DOMAIN, PROJECT, String.valueOf(1000), null);
         Response<QualityCenterDefectsResponse> defectsResponse = defectsCall.execute();
 
         return defectsResponse.body();
+    }
+
+    private List<QualityCenterDefect> convertResponseToDefectEntities(QualityCenterDefectsResponse response) {
+        return response.entities.stream().map(QualityCenterDefect::new)
+                .collect(Collectors.toList());
     }
 }
