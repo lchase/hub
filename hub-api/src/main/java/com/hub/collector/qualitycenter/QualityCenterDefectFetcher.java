@@ -1,9 +1,11 @@
 package com.hub.collector.qualitycenter;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableMap;
 import com.hub.api.qualitycenter.model.QualityCenterDefect;
+import com.hub.api.qualitycenter.model.QualityCenterQuery;
+import com.hub.api.qualitycenter.model.QualityCenterQueryComponent;
 import com.hub.api.qualitycenter.repository.QualityCenterDefectRepository;
+import com.hub.api.qualitycenter.repository.QualityCenterQueryRepository;
 import com.hub.collector.qualitycenter.xml.QualityCenterDefectsResponse;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -14,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StopWatch;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -22,12 +23,8 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 import java.io.IOException;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.Base64;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -39,11 +36,15 @@ public class QualityCenterDefectFetcher {
 
     private static final DateTimeFormatter queryDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    private final QualityCenterDefectRepository repository;
+    private static final int MAX_PAGE_SIZE = 500;
+
+    private final QualityCenterDefectRepository defectRepository;
+    private final QualityCenterQueryRepository queryRepository;
 
     @Autowired
-    public QualityCenterDefectFetcher(QualityCenterDefectRepository repository) {
-        this.repository = repository;
+    public QualityCenterDefectFetcher(QualityCenterDefectRepository defectRepository, QualityCenterQueryRepository queryRepository) {
+        this.defectRepository = defectRepository;
+        this.queryRepository = queryRepository;
     }
 
     @Value("${quality_center.base_url}")
@@ -65,6 +66,7 @@ public class QualityCenterDefectFetcher {
     //@Scheduled(fixedRate = 5000)
     public void fetchDefectsFromQualityCenter() {
         try {
+            log.info("QualityCenterDefectFetcher: execution started at {}", Instant.now().toString());
             validateConfiguration();
 
             OkHttpClient client = new OkHttpClient.Builder()
@@ -84,37 +86,9 @@ public class QualityCenterDefectFetcher {
             Response<ResponseBody> loginResponse = loginCall.execute();
             String authCookie = loginResponse.headers().get("Set-Cookie");
 
-            StopWatch sw = new StopWatch();
-            sw.start();
+            executeAllStoredQueries(qcEndpoint, authCookie);
 
-            log.info("Fetching all defects from Quality Center");
-            QualityCenterDefectsResponse allDefects = getAllDefects(qcEndpoint, authCookie);
-            sw.stop();
-            log.info("Fetching all defects from Quality Center completed. Time: " + sw.getLastTaskTimeMillis());
-            sw.start();
-            log.info("Converting defects to entities");
-            List<QualityCenterDefect> defectEntities = convertResponseToDefectEntities(allDefects);
-            sw.stop();
-            log.info("Converting defects to entities completed. Time: " + sw.getLastTaskTimeMillis());
-            sw.start();
-            log.info("Persisting QC entities");
-            repository.save(defectEntities);
-            sw.stop();
-            log.info("Persisting QC entities completed. Time: " + sw.getLastTaskTimeMillis());
-
-
-//            Call<QualityCenterDefectResponse> defectCall = qcEndpoint.getDefectById(authCookie, DOMAIN, PROJECT, 195970);
-//            Response<QualityCenterDefectResponse> defectResponse = defectCall.execute();
-//
-//            Call<QualityCenterDefectsResponse> defectsCall =
-//                    qcEndpoint.getDefectsByQuery(authCookie, DOMAIN, PROJECT, getWfmQuery());
-//            Response<QualityCenterDefectsResponse> defectsResponse = defectsCall.execute();
-//
-//            Call<ResponseBody> defectsCall =
-//                    qcEndpoint.getDefectsByQuery(authCookie, DOMAIN, PROJECT, getWfmQuery());
-//            Response<ResponseBody> defectsResponse = defectsCall.execute();
-
-            log.info("QualityCenterDefectFetcher: execution ended at time {}", Instant.now().toString());
+            log.info("QualityCenterDefectFetcher: execution ended at {}", Instant.now().toString());
         } catch (Exception e) {
             log.error("QualityCenterDefectFetcher encountered an error: ", e);
         }
@@ -133,38 +107,60 @@ public class QualityCenterDefectFetcher {
         }
     }
 
-    private String createFilterQueryString(Map<String, String> filterOptions) {
+    private String createFilterQueryString(Collection<QualityCenterQueryComponent> queryComponents) {
         StringBuilder query = new StringBuilder();
         query.append("{");
-        filterOptions.forEach((key, value) -> {
+        queryComponents.forEach((component) -> {
             if (query.length() > 1) {
                 query.append(';');
             }
-            query.append(key).append('[').append(value).append(']');
+            query.append(component.getFieldName()).append('[').append(component.getExpression()).append(']');
         });
         query.append("}");
         return query.toString();
     }
 
-    private String getWfmQuery() {
-        ImmutableMap<String, String> filterOptions = ImmutableMap.<String, String>builder()
-                .put(QualityCenterField.Product.physicalName(), "\"WFM Web Suite\" Or \"WFM-Core\" Or \"Report Framework\"")
-                .put(QualityCenterField.TargetVersion.physicalName(), "\"15.1 FP1\"")
-                .put(QualityCenterField.TargetRelease.physicalName(), "NOT \"HF*\"")
-                .put(QualityCenterField.Type.physicalName(), "Bug")
-                .put(QualityCenterField.Subsystem.physicalName(), "Not (Documentation Or \"Doc: Online Help\" Or \"SFP\" Or \"RFS\" Or \"Retail Financial Services\" Or \"RFS Scheduling\" Or \"Request Management\")")
-                .put(QualityCenterField.Component.physicalName(), "Not (\"My Requests\")")
-                .put(QualityCenterField.Category.physicalName(), "Not Localization")
-                .put(QualityCenterField.LastChangeDate.physicalName(), "> " +
-                        queryDateFormat.format(LocalDate.now().minus(7, ChronoUnit.DAYS)))
-                .build();
+    /**
+     *
+     * @return
+     */
+    private void executeAllStoredQueries(QualityCenterEndpointInterface qcEndpoint, String authCookie) throws IOException {
+        log.info("Fetching defects from Quality Center for all stored queries.");
+        List<QualityCenterQuery> queriesToExecute = queryRepository.findAll();
+        for (QualityCenterQuery query : queriesToExecute) {
+            List<QualityCenterDefect> queriedDefects = executeSingleQuery(qcEndpoint, authCookie, query);
+            defectRepository.save(queriedDefects);
+        }
+        log.info("FINISHED - Fetching defects from Quality Center for all stored queries.");
+    }
 
-        return createFilterQueryString(filterOptions);
+    private List<QualityCenterDefect> executeSingleQuery(
+            QualityCenterEndpointInterface qcEndpoint,
+            String authCookie, QualityCenterQuery query)
+            throws IOException {
+        log.info("Fetching defects from Quality Center for query: " + query);
+
+        String filterQueryString = createFilterQueryString(query.getComponents());
+        Call<QualityCenterDefectsResponse> defectsCall =
+                qcEndpoint.getDefectsByQuery(authCookie, DOMAIN, PROJECT, MAX_PAGE_SIZE, filterQueryString);
+        Response<QualityCenterDefectsResponse> defectsResponse = defectsCall.execute();
+        QualityCenterDefectsResponse deserializedResponse = defectsResponse.body();
+
+        //TODO: handle paging case where query contains more defects than max page size
+        //The client indicates the position of the next entity to retrieve with the query parameter start-index.
+        //The following URL gets the third page of a query that has 10 entities per page:
+        //http://SERVER:PORT/qcbin/rest/domains/DOMAIN_NAME/projects/PROJECT_NAME/defects?page-size=10&start-index=30
+//        if (deserializedResponse.defectCount > MAX_PAGE_SIZE) {
+//
+//        }
+
+        log.info("FINISHED: Fetching defects from Quality Center for query");
+        return convertResponseToDefectEntities(deserializedResponse);
     }
 
     private QualityCenterDefectsResponse getAllDefects(QualityCenterEndpointInterface qcEndpoint, String authCookie) throws IOException {
         Call<QualityCenterDefectsResponse> defectsCall =
-                qcEndpoint.getDefectsByQuery(authCookie, DOMAIN, PROJECT, String.valueOf(1000), null);
+                qcEndpoint.getDefectsByQuery(authCookie, DOMAIN, PROJECT, 1000, null);
         Response<QualityCenterDefectsResponse> defectsResponse = defectsCall.execute();
 
         return defectsResponse.body();

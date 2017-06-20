@@ -14,5 +14,8 @@ Follow the README instructions in each subfolder at the following order of execu
 and you're ready to go in development environment.
 Navigate to http://localhost:4001 and log in with a@a.com / c
 
+#QC Integration
+To enable the QC collector, modify hub-api/src/main/resources/quality_center.properties and add a username/password for the quality center properties
+
 # See Also
 * For a .NET collector example (work in progress) https://github.com/lchase/hub-collector-qualitycenter

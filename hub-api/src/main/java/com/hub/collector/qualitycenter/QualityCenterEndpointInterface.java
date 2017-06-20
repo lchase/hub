@@ -27,6 +27,6 @@ public interface QualityCenterEndpointInterface {
             @Header("Cookie") String authCookie,
             @Path("domain") String domain,
             @Path("project") String project,
-            @Query("page-size") String size,
+            @Query("page-size") Integer size,
             @Query("query") String query);
 }

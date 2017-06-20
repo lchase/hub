@@ -6,6 +6,8 @@ import com.hub.api.dto.UserDto;
 import com.hub.api.model.PreferenceEntity;
 import com.hub.api.organization.model.OrganizationUnitEntity;
 import com.hub.api.qualitycenter.model.QualityCenterDefect;
+import com.hub.api.qualitycenter.model.QualityCenterQuery;
+import com.hub.api.qualitycenter.model.QualityCenterQueryComponent;
 import com.hub.api.security.model.Authority;
 import com.hub.api.security.model.User;
 import com.hub.api.workflow.model.Workflow;
@@ -62,6 +64,8 @@ public class ModuleConfig {
         module.addRepository(JpaRepositoryConfig.builder(PreferenceEntity.class).build());
         module.addRepository(JpaRepositoryConfig.builder(OrganizationUnitEntity.class).build());
         module.addRepository(JpaRepositoryConfig.builder(QualityCenterDefect.class).build());
+        module.addRepository(JpaRepositoryConfig.builder(QualityCenterQuery.class).build());
+        module.addRepository(JpaRepositoryConfig.builder(QualityCenterQueryComponent.class).build());
         module.addRepository(JpaRepositoryConfig.builder(User.class).build());
         module.addRepository(JpaRepositoryConfig.builder(Workflow.class).build());
         module.addRepository(JpaRepositoryConfig.builder(WorkflowRun.class).build());
