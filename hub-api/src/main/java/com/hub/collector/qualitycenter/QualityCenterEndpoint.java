@@ -10,7 +10,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface QualityCenterEndpointInterface {
+public interface QualityCenterEndpoint {
 
     @GET("authentication-point/authenticate")
     Call<ResponseBody> login(@Header("Authorization") String authInfo);
@@ -24,9 +24,9 @@ public interface QualityCenterEndpointInterface {
 
     @GET("rest/domains/{domain}/projects/{project}/defects")
     Call<QualityCenterDefectsResponse> getDefectsByQuery(
-            @Header("Cookie") String authCookie,
             @Path("domain") String domain,
             @Path("project") String project,
             @Query("page-size") Integer size,
-            @Query("query") String query);
+            @Query("query") String query,
+            @Query("fields") String fields);
 }

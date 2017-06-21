@@ -111,9 +111,9 @@ public class QualityCenterDefect {
         this.id = response.getFieldIntValue(QualityCenterField.DefectID);
         this.summary = response.getFieldValue(QualityCenterField.Summary);
         this.description = response.getFieldValue(QualityCenterField.Description);
-        this.isReproducible = response.getFieldBooleanValue(QualityCenterField.Summary);
+        this.isReproducible = response.getFieldBooleanValue(QualityCenterField.Reproducible);
         this.detectedBy = response.getFieldValue(QualityCenterField.DetectedBy);
-        this.assignedTo = response.getFieldValue(QualityCenterField.AssignedTo);
+        this.assignedTo = response.getFieldValue(QualityCenterField.AssignTo);
         this.status = response.getFieldValue(QualityCenterField.Status);
         this.severity = response.getFieldValue(QualityCenterField.Severity);
         this.targetVersion = response.getFieldValue(QualityCenterField.TargetVersion);

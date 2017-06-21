@@ -1,13 +1,13 @@
 buildscript {
-	ext {
-		springBootVersion = '1.4.2.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+    ext {
+        springBootVersion = '1.4.2.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
 }
 
 apply plugin: 'java'
@@ -15,44 +15,46 @@ apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
 jar {
-	baseName = 'demo'
-	version = '0.0.1-SNAPSHOT'
+    baseName = 'demo'
+    version = '0.0.1-SNAPSHOT'
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 
 dependencies {
-	//compile('org.springframework.boot:spring-boot-starter-aop')
-	compile 'org.springframework.boot:spring-boot-starter-data-jpa'
-	//compile('org.springframework.boot:spring-boot-starter-jooq')
-	compile 'org.springframework.boot:spring-boot-starter-security'
-	compile 'org.springframework.boot:spring-boot-starter-web'
-	//compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-	compile 'org.springframework.mobile:spring-mobile-device'
+    //compile('org.springframework.boot:spring-boot-starter-aop')
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    //compile('org.springframework.boot:spring-boot-starter-jooq')
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    //compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    compile 'org.springframework.mobile:spring-mobile-device'
 
-	compile group: 'io.katharsis', name: 'katharsis-core', version: '3.0.1'
-	compile group: 'io.katharsis', name: 'katharsis-spring', version: '3.0.1'
-	compile group: 'io.katharsis', name: 'katharsis-jpa', version: '3.0.1'
-	compile group: 'io.katharsis', name: 'katharsis-cdi', version: '3.0.1'
-	compile group: 'io.katharsis', name: 'katharsis-validation', version: '3.0.1'
+    compile group: 'io.katharsis', name: 'katharsis-core', version: '3.0.1'
+    compile group: 'io.katharsis', name: 'katharsis-spring', version: '3.0.1'
+    compile group: 'io.katharsis', name: 'katharsis-jpa', version: '3.0.1'
+    compile group: 'io.katharsis', name: 'katharsis-cdi', version: '3.0.1'
+    compile group: 'io.katharsis', name: 'katharsis-validation', version: '3.0.1'
 
-	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
 
-	compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.22'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.22'
 
-	compile "com.squareup.retrofit2:retrofit:2.3.0"
-	compile "com.squareup.retrofit2:converter-simplexml:2.3.0"
-	compile "com.squareup.okhttp3:logging-interceptor:3.8.0"
+    //Dependencies for Retrofit/Okhttp HTTP Client
+    compile "com.squareup.retrofit2:retrofit:2.3.0"
+    compile "com.squareup.retrofit2:converter-simplexml:2.3.0"
+    compile "com.squareup.okhttp3:logging-interceptor:3.8.0"
+    compile 'com.squareup.okhttp3:okhttp-urlconnection:3.8.1'
 
-	runtime "mysql:mysql-connector-java"
+    runtime "mysql:mysql-connector-java"
 
-	testCompile "junit:junit"
-	testCompile "org.springframework.boot:spring-boot-starter-test"
-	testCompile "org.springframework.security:spring-security-test"
-	testCompile "org.springframework.restdocs:spring-restdocs-mockmvc"
+    testCompile "junit:junit"
+    testCompile "org.springframework.boot:spring-boot-starter-test"
+    testCompile "org.springframework.security:spring-security-test"
+    testCompile "org.springframework.restdocs:spring-restdocs-mockmvc"
 }

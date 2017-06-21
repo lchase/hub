@@ -10,4 +10,9 @@ public class QualityCenterDefectFieldResponse {
 
     @Text
     public String value;
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

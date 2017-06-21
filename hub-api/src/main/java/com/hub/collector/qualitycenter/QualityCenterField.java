@@ -9,7 +9,7 @@ public enum QualityCenterField {
     AdditionalEmails("user-70"),
     AgileCraftFlag("user-62"),
     AssignTo("user-02"),
-    AssignedTo("owner"),
+    //AssignedTo("owner"),
     Association("user-52"),
     Attachment("attachment"),
     CCRecipient("user-03"),
