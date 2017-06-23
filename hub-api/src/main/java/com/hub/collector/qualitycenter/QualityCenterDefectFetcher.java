@@ -4,8 +4,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.hub.api.qualitycenter.model.QualityCenterDefect;
 import com.hub.api.qualitycenter.model.QualityCenterQuery;
-import com.hub.api.qualitycenter.repository.QualityCenterDefectRepository;
-import com.hub.api.qualitycenter.repository.QualityCenterQueryRepository;
+import com.hub.api.qualitycenter.service.QualityCenterService;
 import com.hub.collector.qualitycenter.xml.QualityCenterDefectsResponse;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;
@@ -26,12 +25,11 @@ import java.io.IOException;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -45,10 +43,9 @@ public class QualityCenterDefectFetcher {
 
     private static final int MAX_PAGE_SIZE = 5000;
 
-    private final QualityCenterDefectRepository defectRepository;
-    private final QualityCenterQueryRepository queryRepository;
-
     private static final List<QualityCenterField> supportedQueryFields;
+
+    private final QualityCenterService qcService;
 
     static {
         QualityCenterField[] test = new QualityCenterField[] {
@@ -83,9 +80,8 @@ public class QualityCenterDefectFetcher {
     }
 
     @Autowired
-    public QualityCenterDefectFetcher(QualityCenterDefectRepository defectRepository, QualityCenterQueryRepository queryRepository) {
-        this.defectRepository = defectRepository;
-        this.queryRepository = queryRepository;
+    public QualityCenterDefectFetcher(QualityCenterService qcService) {
+        this.qcService = qcService;
     }
 
     @Value("${quality_center.base_url}")
@@ -171,14 +167,16 @@ public class QualityCenterDefectFetcher {
             filter.append(component.getFieldName()).append('[').append(component.getExpression()).append(']');
         });
         //Only return defects that have been modified since the last successful query execution
-        if (query.getLastSuccessfulExecution() != null) {
-            filter.append(';');
-            ZonedDateTime zdt = ZonedDateTime.ofInstant(query.getLastSuccessfulExecution().toInstant(), ZoneId.of("Israel"));
-            filter.append(QualityCenterField.LastChangeDate.physicalName())
-                    .append('[')
-                    .append(">= ").append(zdt.format(lastModifiedDateFormatter))
-                    .append(']');
-        }
+        //TODO: if nothing was updated recently, this returns an empty list.  Need to figure out a way to determine difference
+        //between a defect no longer being part of the query or one that was simply not modified.
+//        if (query.getLastSuccessfulExecution() != null) {
+//            filter.append(';');
+//            ZonedDateTime zdt = ZonedDateTime.ofInstant(query.getLastSuccessfulExecution().toInstant(), ZoneId.of("Israel"));
+//            filter.append(QualityCenterField.LastChangeDate.physicalName())
+//                    .append('[')
+//                    .append(">= ").append(zdt.format(lastModifiedDateFormatter))
+//                    .append(']');
+//        }
         filter.append("}");
         return filter.toString();
     }
@@ -196,23 +194,17 @@ public class QualityCenterDefectFetcher {
         return sb.toString();
     }
 
-    /**
-     *
-     * @return
-     */
     private void executeAllStoredQueries(QualityCenterEndpoint qcEndpoint) throws IOException {
         log.info("Fetching defects from Quality Center for all stored queries.");
-        List<QualityCenterQuery> queriesToExecute = queryRepository.findAll();
+        List<QualityCenterQuery> queriesToExecute = qcService.findAllQueries();
         for (QualityCenterQuery query : queriesToExecute) {
-            List<QualityCenterDefect> queriedDefects = executeSingleQuery(qcEndpoint, query);
-            defectRepository.save(queriedDefects);
-            query.setLastSuccessfulExecution(new Date());
-            queryRepository.save(query);
+            Set<QualityCenterDefect> associatedDefects = executeSingleQuery(qcEndpoint, query);
+            qcService.saveQueryResults(query, associatedDefects);
         }
         log.info("FINISHED - Fetching defects from Quality Center for all stored queries.");
     }
 
-    private List<QualityCenterDefect> executeSingleQuery(
+    private Set<QualityCenterDefect> executeSingleQuery(
             QualityCenterEndpoint qcEndpoint,
             QualityCenterQuery query)
             throws IOException {
@@ -228,8 +220,11 @@ public class QualityCenterDefectFetcher {
         return convertResponseToDefectEntities(deserializedResponse);
     }
 
-    private List<QualityCenterDefect> convertResponseToDefectEntities(QualityCenterDefectsResponse response) {
+    private Set<QualityCenterDefect> convertResponseToDefectEntities(QualityCenterDefectsResponse response) {
+        if (response.entities == null) {
+            return Collections.emptySet();
+        }
         return response.entities.stream().map(QualityCenterDefect::new)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 }

@@ -5,6 +5,7 @@ import com.hub.api.workflow.model.Workflow;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "organization_units", schema = "hub")
@@ -37,7 +38,7 @@ public class OrganizationUnitEntity {
             inverseJoinColumns = @JoinColumn(name="WorkflowId", referencedColumnName = "Id")
 
     )
-    private List<Workflow> workflows;
+    private Set<Workflow> workflows;
 
     public int getId() {
         return id;
@@ -79,11 +80,11 @@ public class OrganizationUnitEntity {
         this.isPublic = isPublic;
     }
 
-    public List<Workflow> getWorkflows() {
+    public Set<Workflow> getWorkflows() {
         return workflows;
     }
 
-    public void setWorkflows(List<Workflow> workflows) {
+    public void setWorkflows(Set<Workflow> workflows) {
         this.workflows = workflows;
     }
 }

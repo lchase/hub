@@ -6,6 +6,7 @@ import org.hibernate.annotations.Fetch;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "workflows", schema = "hub")
@@ -33,13 +34,13 @@ public class Workflow {
             inverseJoinColumns = @JoinColumn(name="OrganizationUnitId", referencedColumnName = "Id")
 
     )
-    private List<OrganizationUnitEntity> organizationUnits;
+    private Set<OrganizationUnitEntity> organizationUnits;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="workflow")
-    private List<WorkflowRun> workflowRuns;
+    private Set<WorkflowRun> workflowRuns;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="workflow")
-    private List<WorkflowStep> workflowSteps;
+    private Set<WorkflowStep> workflowSteps;
 
     public int getId() {
         return id;
@@ -73,27 +74,27 @@ public class Workflow {
         this.description = description;
     }
 
-    public List<OrganizationUnitEntity> getOrganizationUnits() {
+    public Set<OrganizationUnitEntity> getOrganizationUnits() {
         return organizationUnits;
     }
 
-    public void setOrganizationUnits(List<OrganizationUnitEntity> organizationUnits) {
+    public void setOrganizationUnits(Set<OrganizationUnitEntity> organizationUnits) {
         this.organizationUnits = organizationUnits;
     }
 
-    public List<WorkflowRun> getWorkflowRuns() {
+    public Set<WorkflowRun> getWorkflowRuns() {
         return workflowRuns;
     }
 
-    public void setWorkflowRuns(List<WorkflowRun> workflowRuns) {
+    public void setWorkflowRuns(Set<WorkflowRun> workflowRuns) {
         this.workflowRuns = workflowRuns;
     }
 
-    public List<WorkflowStep> getWorkflowSteps() {
+    public Set<WorkflowStep> getWorkflowSteps() {
         return workflowSteps;
     }
 
-    public void setWorkflowSteps(List<WorkflowStep> workflowSteps) {
+    public void setWorkflowSteps(Set<WorkflowStep> workflowSteps) {
         this.workflowSteps = workflowSteps;
     }
 }

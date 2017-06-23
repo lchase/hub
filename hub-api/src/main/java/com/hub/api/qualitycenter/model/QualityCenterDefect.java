@@ -6,6 +6,7 @@ import com.hub.collector.qualitycenter.xml.QualityCenterDefectResponse;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "quality_center_defects", schema = "hub")
@@ -97,6 +98,15 @@ public class QualityCenterDefect {
 
     @Column(name = "LastChangeDate")
     private Date lastChangeDate;
+
+    @ManyToMany(fetch=FetchType.LAZY)
+    @JoinTable(
+            name="quality_center_queries_defects",
+            joinColumns = @JoinColumn(name="QualityCenterDefectId", referencedColumnName = "Id"),
+            inverseJoinColumns = @JoinColumn(name="QualityCenterQueryId", referencedColumnName = "Id")
+
+    )
+    private Set<QualityCenterQuery> queries;
 
     public QualityCenterDefect() {
 
@@ -354,5 +364,13 @@ public class QualityCenterDefect {
 
     public void setLastChangeDate(Date lastChangeDate) {
         this.lastChangeDate = lastChangeDate;
+    }
+
+    public Set<QualityCenterQuery> getQueries() {
+        return queries;
+    }
+
+    public void setQueries(Set<QualityCenterQuery> queries) {
+        this.queries = queries;
     }
 }
