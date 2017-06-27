@@ -27,18 +27,33 @@ export class DashboardContainer extends Component {
       )
     }
   }
-
-  //TODO: dynamically create component associated to the "slug" property
+  
   //TODO: load properties required by the specific component
   //TODO: pass in a set of components and their order/layout
   createDashboardComponentFromModel() {
-    if (this.dashboard) {
-      //Pull the widget types off of the dashboard definition, determine the props needed for each widget, then pass those props plus
-      //each widget component (looked up via the registry) to the Dashboard component for rendering
-      return <Dashboard component={{slug: RegisteredWidgets['placeholderOne'], value: 'This is my header'}}/>
+    if (this.props.dashboard && this.props.dashboard.dashboards && Object.keys(this.props.dashboard.dashboards).length > 0) {
+      //TODO: remove the hardcoded dashboard id reference
+      let widgetComponents = this.createWidgets(this.props.dashboard.dashboards[1], this.props.dashboard.dashboardWidgets);
+      return <Dashboard widgetComponents={widgetComponents} />
     }
     //TODO: this bit of render logic should probably be in Dashboard, not this DashboardContainer
     return <div>No dashboard available, please create one.</div>
+  }
+
+  createWidgets(dashboard, dashboardWidgets) {
+    console.log('DashboardContainer.createWidgets - dashboard value: ');
+    console.log(dashboard);
+    let dashboardWidgetIds = dashboard.relationships.widgets.data.map(widget => {
+      return widget.id;
+    });
+
+    return dashboardWidgetIds.map(widgetId => {
+      return this.createWidgetComponent(dashboardWidgets[widgetId]);
+    });
+  }
+
+  createWidgetComponent(widget) {
+    return {id: widget.id, slug: RegisteredWidgets[widget.attributes.widgetType]};
   }
 }
 

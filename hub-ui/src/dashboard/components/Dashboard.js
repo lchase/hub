@@ -26,19 +26,27 @@ export default class Dashboard extends Component {
       {i: 'c', x: 4, y: 1, w: 4, h: 4}
     ];
 
-    // return <this.props.component.slug className='text'>
-    //   {this.props.component.value}
-    // </this.props.component.slug>;
-
     //TODO: test render the component, show an error in UI if component rendering failed
 
     //NOTE: It is important that "TestComponent" or any user-defined component (i.e. one that is not built in to react) start with a
     //capital letter in order to be instantiated correctly.
     // See https://facebook.github.io/react/docs/jsx-in-depth.html#user-defined-components-must-be-capitalized
-    let TestComponent = this.props.component.slug;
-    return <TestComponent {...this.props}>
-      {this.props.component.value}
-    </TestComponent>;
+    //let TestComponent = this.props.component.slug;
+    // return <TestComponent {...this.props}>
+    //   {this.props.component.value}
+    // </TestComponent>;
+
+    return (
+      <ul>
+        {this.props.widgetComponents.map(component => {
+          let Widget = component.slug;
+          //let componentProps = component.props;
+          return <Widget key={component.id}>
+          </Widget>
+        })}
+      </ul>
+    );
+
   }
 }
 
