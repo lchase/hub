@@ -3,7 +3,6 @@ import DevTools from './DevTools';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import preference from '../preference';
-import _ from 'lodash';
 
 import enUS from 'antd/lib/locale-provider/en_US';
 import { LocaleProvider } from 'antd';
@@ -27,14 +26,17 @@ export class App extends Component {
     } else {
       document.body.classList.add('sidebar-collapse');
     }
-    //document.body.classList.toggle('sidebar-collapse', !this.isSidebarExpanded())
   }
   componentWillUnmount() {
     document.body.classList.remove('sidebar-collapse')
   }
 
   isSidebarExpanded() {
-    return this.props.preference['sidebarExpanded'];
+    let sidebarExpanded = this.props.preference[preference.keys.sidebarExpanded];
+    if (sidebarExpanded && sidebarExpanded.value) {
+      return sidebarExpanded.value.toLowerCase() === 'true';
+    }
+    return true;
   }  
   
   render() {

@@ -13,9 +13,11 @@ export default class Sidebar extends Component {
           <SidebarSearch />
           <ul className="sidebar-menu">
             <li className="header">HEADER</li>
-            <NavLink to='/'><i className="fa fa-dashboard"></i> <span>Dashboard</span></NavLink>
-          </ul>  
-        </section>  
+            <NavLink to='/'>
+              <i className="fa fa-dashboard"></i><span>Dashboard</span>
+            </NavLink>
+          </ul>
+        </section>
       </aside>
     );
   }
