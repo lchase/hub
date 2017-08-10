@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import DevTools from './DevTools';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import preference from '../preference';
+import preference, { preferenceKeys } from '../preference';
 
 import enUS from 'antd/lib/locale-provider/en_US';
 import { LocaleProvider } from 'antd';
@@ -32,7 +32,7 @@ export class App extends Component {
   }
 
   isSidebarExpanded() {
-    let sidebarExpanded = this.props.preference[preference.keys.sidebarExpanded];
+    let sidebarExpanded = this.props.preference[preferenceKeys.sidebarExpanded];
     if (sidebarExpanded && sidebarExpanded.value) {
       return sidebarExpanded.value.toLowerCase() === 'true';
     }

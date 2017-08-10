@@ -4,20 +4,32 @@ import { bindActionCreators } from 'redux';
 import Dashboard from './Dashboard';
 import * as actions from '../dashboardActions';
 
-import preference from '../../preference';
+import { preferenceKeys } from '../../preference';
 
 import RegisteredWidgets from '../WidgetRegistry';
 
+//TODO: define expected props
 export class DashboardContainer extends Component {
-  componentWillMount() {
-    console.log('DashboardContainer.componentWillMount', this.props);
-    //TODO: not sure if this is the best place for this - this will trigger the rest call to load the dashboard data from hub-api
-    this.props.getDefaultDashboard(this.props.auth.user.id);
+  // componentWillMount() {
+  //   console.log('DashboardContainer.componentWillMount', this.props);
+  //   this.props.getDashboards(this.props.auth.user.id);
+  // }
+
+  componentDidMount() {
+    console.log('DashboardContainer.componentDidMount, this.props: ', this.props);
+    //Load the data that is needed to display the current dashboard
+    this.props.getDashboards();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('DashboardContainer.componentWillReceiveProps, nextProps: ', nextProps);
+    // if (nextProps.userLogin !== this.props.userLogin) {
+    //   this.props.fetchData(nextProps.userLogin);
+    // }
   }
 
   render() {
-    //TODO: figure out a way to prevent rendering of the DashboardContainer before data like user prefs has been loaded
-    if (this.props.preference[preference.keys.sidebarExpanded] === undefined) {
+    if (this.isLoading()) {
       return (
         <div>LOADING</div>
       )
@@ -27,19 +39,37 @@ export class DashboardContainer extends Component {
       )
     }
   }
+
+  /**
+   * Returns true if this component is still waiting on all of its necessary data to be loaded from the server.
+   */
+  isLoading() {
+    return this.props.preference[preferenceKeys.sidebarExpanded] === undefined ||
+      this.props.preference[preferenceKeys.selectedDashboardId] === undefined ||
+      this.props.dashboard === undefined || this.props.dashboard.dashboards === undefined;
+  }
   
   //TODO: load properties required by the specific component
   //TODO: pass in a set of components and their order/layout
   createDashboardComponentFromModel() {
-    if (this.props.dashboard && this.props.dashboard.dashboards && Object.keys(this.props.dashboard.dashboards).length > 0) {
-      //TODO: remove the hardcoded dashboard id reference
-      let widgetComponents = this.createWidgets(this.props.dashboard.dashboards[1], this.props.dashboard.dashboardWidgets);
+    let dashboardId = this.props.preference[preferenceKeys.selectedDashboardId].value;
+    if (Object.keys(this.props.dashboard.dashboards).length > 0 &&
+      this.props.dashboard.dashboards.hasOwnProperty(dashboardId)) {
+      //TODO: remove the hardcoded dashboard id reference - look it up via user preferences
+      let widgetComponents =
+        this.createWidgets(this.props.dashboard.dashboards[dashboardId],
+          this.props.dashboard.dashboardWidgets);
       return <Dashboard widgetComponents={widgetComponents} />
+    } else {
+      return <div>No dashboard available, please create one.</div>
     }
-    //TODO: this bit of render logic should probably be in Dashboard, not this DashboardContainer
-    return <div>No dashboard available, please create one.</div>
   }
 
+  /**
+   * Returns an array of widget component objects with the following properties:
+   * id - the id of the widget
+   * slug - the widget react component to be rendered
+   */
   createWidgets(dashboard, dashboardWidgets) {
     console.log('DashboardContainer.createWidgets - dashboard value: ');
     console.log(dashboard);
@@ -57,8 +87,6 @@ export class DashboardContainer extends Component {
   }
 }
 
-
-
 function mapStateToProps(state) {
   return {
     auth: state.auth,
@@ -69,7 +97,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    getDefaultDashboard: actions.loadDefaultDashboard
+    getDashboards: actions.loadDashboards
   }, dispatch)
 }
 

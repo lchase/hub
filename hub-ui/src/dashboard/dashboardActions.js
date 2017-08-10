@@ -9,7 +9,7 @@ export const HIDE_CREATE_DASHBOARD_DIALOG = 'HIDE_CREATE_DASHBOARD_DIALOG';
 
 const DASHBOARD_ENDPOINT = "dashboard";
 
-export function loadDefaultDashboard(email) {
+export function loadDashboards() {
   return function(dispatch) {
     dispatch({ type: LOAD_DEFAULT_DASHBOARD_REQUEST });
 

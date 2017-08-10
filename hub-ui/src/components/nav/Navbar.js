@@ -6,7 +6,7 @@ import NavbarUserMenu from './NavbarUserMenu';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import preference from '../../preference';
+import preference, { preferenceKeys } from '../../preference';
 
 export class Navbar extends Component {
   constructor() {
@@ -21,14 +21,14 @@ export class Navbar extends Component {
   }
   
   isSidebarExpanded() {
-    if (this.props.preference[preference.keys.sidebarExpanded] === undefined) {
+    if (this.props.preference[preferenceKeys.sidebarExpanded] === undefined) {
       console.log('NAVBAR PREFERENCE PROPS UNDEFINED!');
     } else {
       console.log('NAVBAR.isSidebarExpanded value:');
-      console.log(this.props.preference[preference.keys.sidebarExpanded].value);
-      console.log(this.props.preference[preference.keys.sidebarExpanded].value == 'true');
-      if (this.props.preference[preference.keys.sidebarExpanded]) {
-        return this.props.preference[preference.keys.sidebarExpanded].value == 'true';
+      console.log(this.props.preference[preferenceKeys.sidebarExpanded].value);
+      console.log(this.props.preference[preferenceKeys.sidebarExpanded].value == 'true');
+      if (this.props.preference[preferenceKeys.sidebarExpanded]) {
+        return this.props.preference[preferenceKeys.sidebarExpanded].value == 'true';
       } else {
         return false;
       }
