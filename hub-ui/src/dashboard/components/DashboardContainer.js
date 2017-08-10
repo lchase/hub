@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
 import Dashboard from './Dashboard';
 import * as actions from '../dashboardActions';
-
 import { preferenceKeys } from '../../preference';
-
 import RegisteredWidgets from '../WidgetRegistry';
 
-//TODO: define expected props
 export class DashboardContainer extends Component {
   // componentWillMount() {
   //   console.log('DashboardContainer.componentWillMount', this.props);
@@ -17,8 +15,7 @@ export class DashboardContainer extends Component {
 
   componentDidMount() {
     console.log('DashboardContainer.componentDidMount, this.props: ', this.props);
-    //Load the data that is needed to display the current dashboard
-    this.props.getDashboards();
+    this.loadData();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -55,7 +52,6 @@ export class DashboardContainer extends Component {
     let dashboardId = this.props.preference[preferenceKeys.selectedDashboardId].value;
     if (Object.keys(this.props.dashboard.dashboards).length > 0 &&
       this.props.dashboard.dashboards.hasOwnProperty(dashboardId)) {
-      //TODO: remove the hardcoded dashboard id reference - look it up via user preferences
       let widgetComponents =
         this.createWidgets(this.props.dashboard.dashboards[dashboardId],
           this.props.dashboard.dashboardWidgets);
@@ -84,6 +80,11 @@ export class DashboardContainer extends Component {
 
   createWidgetComponent(widget) {
     return {id: widget.id, slug: RegisteredWidgets[widget.attributes.widgetType]};
+  }
+
+  loadData() {
+    //Load the data that is needed to display the current dashboard
+    this.props.getDashboards();
   }
 }
 

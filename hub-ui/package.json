@@ -52,6 +52,7 @@
     "json-api-normalizer": "^0.4.0",
     "lodash.capitalize": "^4.2.1",
     "object-assign": "^4.1.0",
+    "prop-types": "15.5.10",
     "react": "^15.5.4",
     "react-addons-css-transition-group": "^15.4.1",
     "react-cookie": "^0.4.8",

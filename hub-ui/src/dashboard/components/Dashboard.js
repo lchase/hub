@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import ChatWidget from '../../components/chat/ChatWidget';
 import AddDashboardDialog from './AddDashboardDialog';
 import { DatePicker, Progress, Card } from 'antd';
 import PingWidget from '../../ping/components/pingWidget';
-import { connect } from 'react-redux';
-
 
 let ReactGridLayout = require('react-grid-layout');
 
@@ -49,6 +49,10 @@ export default class Dashboard extends Component {
 
   }
 }
+
+Dashboard.propTypes = {
+  widgetComponents: PropTypes.array.isRequired
+};
 
 /*
 
