@@ -1,30 +1,44 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactGridLayout from 'react-grid-layout';
 
 import ChatWidget from '../../components/chat/ChatWidget';
 import AddDashboardDialog from './AddDashboardDialog';
 import { DatePicker, Progress, Card } from 'antd';
-import PingWidget from '../../ping/components/pingWidget';
 
-let ReactGridLayout = require('react-grid-layout');
+const defaultWidgetWidth = 3;
+const defaultWidgetHeight = 3;
 
 export default class Dashboard extends Component {
+
   constructor(props) {
     super(props);
     console.log('Dashboard.constructor', props);
   }
 
-  handleOnNewDashboardClick() {
-
-  }
-
   render() {
-    // layout is an array of objects, see the demo for more complete usage
-    let layout = [
-      {i: 'a', x: 0, y: 0, w: 4, h: 4, static: true},
-      {i: 'b', x: 4, y: 0, w: 4, h: 4, minW: 2, maxW: 4},
-      {i: 'c', x: 4, y: 1, w: 4, h: 4}
-    ];
+    return (
+      <ReactGridLayout className="layout" cols={12} rowHeight={30} width={1200}>
+        {this.props.widgetComponents.map(component => {
+          let Widget = component.slug;
+          //let componentProps = component.props;
+          // return <Widget key={component.id}>
+          // </Widget>
+          return <div key={component.id}
+                      data-grid={{
+                        x: component.column * defaultWidgetWidth,
+                        y: component.row * defaultWidgetHeight,
+                        w: defaultWidgetWidth,
+                        h: defaultWidgetHeight,
+                        minW: 2,
+                        maxW: 4}}>
+            <Widget key={component.id}>
+
+            </Widget>
+          </div>
+        })}
+      </ReactGridLayout>
+    );
 
     //TODO: test render the component, show an error in UI if component rendering failed
 
@@ -36,16 +50,16 @@ export default class Dashboard extends Component {
     //   {this.props.component.value}
     // </TestComponent>;
 
-    return (
-      <ul>
-        {this.props.widgetComponents.map(component => {
-          let Widget = component.slug;
-          //let componentProps = component.props;
-          return <Widget key={component.id}>
-          </Widget>
-        })}
-      </ul>
-    );
+    // return (
+    //   <ul>
+    //     {this.props.widgetComponents.map(component => {
+    //       let Widget = component.slug;
+    //       //let componentProps = component.props;
+    //       return <Widget key={component.id}>
+    //       </Widget>
+    //     })}
+    //   </ul>
+    // );
 
   }
 }

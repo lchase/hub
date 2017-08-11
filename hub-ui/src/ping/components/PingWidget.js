@@ -1,6 +1,7 @@
 import React from 'react';
 import { ping } from '../pingActions'
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 export class PingWidget extends React.Component {
   getHeaderText() {
@@ -45,7 +46,7 @@ export class PingWidget extends React.Component {
 }
 
 PingWidget.propTypes = {
-  isPinging: React.PropTypes.bool
+  isPinging: PropTypes.bool
 };
 
 //TODO: move the following to container???

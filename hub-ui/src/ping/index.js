@@ -1,5 +1,5 @@
 import * as actions from './pingActions';
-import * as components from './components/pingWidget';
+import * as components from './components/PingWidget';
 import * as constants from './pingConstants';
 import reducer from './pingReducer';
 import * as selectors from './pingSelectors';

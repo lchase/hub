@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as actions from '../qualityCenterActions';
 
-export default class QualityCenterQueryBuilder extends Component {
+export class QualityCenterQueryViewer extends Component {
 
   render() {
-    console.log("QualityCenterQueryBuilder this.props: ");
+    console.log("QualityCenterQueryViewer this.props: ");
     console.log(this.props);
-    return <div>QualityCenterQueryBuilder!</div>
+    return <div>QualityCenterQueryViewer!</div>
     //TODO: pass in required props for the quality center query viewer widget or have this be a container that pulls the required values,
     //and pass in only minimal data instead like ids
 
@@ -16,3 +19,20 @@ export default class QualityCenterQueryBuilder extends Component {
     // </div>
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    //TODO: register QC reducer and map it to this component's props
+    // auth: state.auth,
+    // preference: state.preference,
+    // dashboard: state.dashboard
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    getQcQueries: actions.loadQcQueries
+  }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(QualityCenterQueryViewer);

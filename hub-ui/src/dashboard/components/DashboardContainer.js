@@ -77,9 +77,14 @@ export class DashboardContainer extends Component {
       return this.createWidgetComponent(dashboardWidgets[widgetId]);
     });
   }
-
+  
   createWidgetComponent(widget) {
-    return {id: widget.id, slug: RegisteredWidgets[widget.attributes.widgetType]};
+    return {
+      id: widget.id,
+      row: widget.attributes.row,
+      column: widget.attributes.column,
+      slug: RegisteredWidgets[widget.attributes.widgetType]
+    };
   }
 
   loadData() {

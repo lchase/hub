@@ -1,0 +1,1 @@
+INSERT INTO dashboard_widgets VALUES (-4, -1, 'ping', 1, 1, '2017-08-08 20:00:00', '2017-08-08 20:00:00');
