@@ -5,27 +5,67 @@ import * as actions from '../qualityCenterActions';
 
 export class QualityCenterQueryViewer extends Component {
 
-  render() {
-    console.log("QualityCenterQueryViewer this.props: ");
-    console.log(this.props);
-    return <div>QualityCenterQueryViewer!</div>
-    //TODO: pass in required props for the quality center query viewer widget or have this be a container that pulls the required values,
-    //and pass in only minimal data instead like ids
+  componentDidMount() {
+    console.log('QualityCenterQueryViewer.componentDidMount, this.props: ', this.props);
+    this.loadData();
+  }
 
-    // return <div>
-    //   <ul>
-    //     {this.props.queries.forEach(query => <li>Query Expression</li>)};
-    //   </ul>
-    // </div>
+  render() {
+    if (this.isLoading()) {
+      return <div>QC Query Viewer - LOADING</div>
+    }
+
+    let coalescedQueries = this.coalesceQueryData(
+      this.props.qualityCenter.queries,
+      this.props.qualityCenter.queryComponents);
+
+    const queryComponents = coalescedQueries.map((query) =>
+      <li key={query.id}>Query Name: {query.name}
+        <ul>
+          {query.components.map((component) =>
+            <li key={query.id + component.fieldName}>{component.fieldName} = {component.expression}</li>)}
+        </ul>
+      </li>);
+
+    return <div>
+      <ul>{queryComponents}</ul>
+    </div>
+
+  }
+
+  /**
+   * Maps data from normalized json-api to an easy-to-use array of objects with the following format:
+   * { id: queryId, name: queryName, components: array of query component objects }
+   * Query components have the following format: {fieldName: field name of component, expression: the query expression
+   * for the field name}
+   * TODO: move to reducer???
+   */
+  coalesceQueryData(queries, queryComponents) {
+    let coalescedQueries = Object.keys(queries).map(key => {
+      let rawQuery = queries[key];
+      let query = {id: rawQuery.id, name: rawQuery.attributes.name};
+      query.components = rawQuery.relationships.components.data.map(componentId => {
+        let component = queryComponents[componentId.id];
+        return {fieldName: component.attributes.fieldName, expression: component.attributes.expression};
+      });
+      return query;
+    });
+
+    return coalescedQueries;
+  }
+
+  isLoading() {
+    return !this.props.qualityCenter.isLoaded;
+  }
+
+  loadData() {
+    this.props.getQcQueries();
   }
 }
 
 function mapStateToProps(state) {
   return {
-    //TODO: register QC reducer and map it to this component's props
-    // auth: state.auth,
-    // preference: state.preference,
-    // dashboard: state.dashboard
+     qualityCenter: state.qualityCenter
   }
 }
 

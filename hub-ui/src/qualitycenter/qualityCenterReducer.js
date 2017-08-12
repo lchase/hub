@@ -1,11 +1,12 @@
-import * as actionTypes from 'qualityCenterActionTypes';
+import * as actionTypes from './qualityCenterActionTypes';
 import objectAssign from 'object-assign';
 import normalize from 'json-api-normalizer';
 
 const INIT_STATE = {
   //A list of quality center queries visible to the user
   queries: {},
-  queryComponents: {}
+  queryComponents: {},
+  isLoaded: false
 };
 
 export default function (state = INIT_STATE, action) {
@@ -23,7 +24,8 @@ export default function (state = INIT_STATE, action) {
       return objectAssign({}, state,
         {
           queries: normalized.qualityCenterQuery,
-          queryComponents: normalized.qualityCenterQueryComponent
+          queryComponents: normalized.qualityCenterQueryComponent,
+          isLoaded: true
         });
 
     default:

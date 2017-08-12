@@ -5,6 +5,7 @@ import auth from '../auth';
 import errorReducer from '../common/errorReducer';
 import preference from '../preference';
 import dashboard from '../dashboard';
+import qualityCenter from '../qualitycenter';
 
 import ping from '../ping';
 
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   errors: errorReducer,
   preference: preference.reducer,
   dashboard: dashboard.reducer,
-  ping: ping.reducer
+  ping: ping.reducer,
+  qualityCenter: qualityCenter.reducer
 });
 
 export default rootReducer;
